@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6097128968089156990}
   - component: {fileID: 6688215014988554003}
   - component: {fileID: 7720121379684317226}
+  - component: {fileID: 2813363366765815}
   m_Layer: 0
   m_Name: Square (1)
   m_TagString: Obstacle
@@ -161,6 +162,33 @@ PolygonCollider2D:
       - {x: 4.04, y: 0.015}
       - {x: 4.02, y: 0.024999999}
   m_UseDelaunayMesh: 0
+--- !u!50 &2813363366765815
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912433566134144984}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &2404844177789905592
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,7 +476,7 @@ Transform:
   m_GameObject: {fileID: 7438531727093152538}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.8708165, y: 2.18, z: -9.92703}
+  m_LocalPosition: {x: 2.8708165, y: 2.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -526,6 +554,7 @@ GameObject:
   - component: {fileID: 1874857711473475296}
   - component: {fileID: 6910353543093114559}
   - component: {fileID: 1801125483826652716}
+  - component: {fileID: 8779814073995213625}
   m_Layer: 0
   m_Name: Square
   m_TagString: Obstacle
@@ -676,6 +705,33 @@ PolygonCollider2D:
       - {x: 4.04, y: 0.015}
       - {x: 4.02, y: 0.024999999}
   m_UseDelaunayMesh: 0
+--- !u!50 &8779814073995213625
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7958184870386591844}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &8678100923204446967
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,7 +757,7 @@ Transform:
   m_GameObject: {fileID: 8678100923204446967}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.414038, y: -6.07, z: 7.558429}
+  m_LocalPosition: {x: 2.414038, y: -6.3, z: 7.558429}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

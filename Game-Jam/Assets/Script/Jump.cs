@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.DeviceSimulation;
 using UnityEngine;
 
 public class Jump : MonoBehaviour
@@ -21,10 +22,18 @@ public class Jump : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        // when the player touches the screen the plane will jump
+        if (Input.touchCount > 0)
         {
-            Flap();
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == UnityEngine.TouchPhase.Began)
+            {
+                jump();
+            }
         }
+
+
 
         if (rb.velocity.y < 0)
         {
@@ -38,7 +47,7 @@ public class Jump : MonoBehaviour
         }
     }
 
-    private void Flap()
+    private void jump()
     {
         if (isFlapping) return; 
 

@@ -6,10 +6,6 @@ public class movePipe : MonoBehaviour
 {
     private float speed = 5f;
     private float leftEdge = -6.40f;
-    
-    private void Start()
-    {
-    }
 
     private void Update()
     {

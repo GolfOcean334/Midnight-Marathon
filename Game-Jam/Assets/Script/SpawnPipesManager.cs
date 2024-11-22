@@ -6,8 +6,8 @@ public class SpawnManager : MonoBehaviour
 {
     public GameObject[] pipePrefab;
     private float spawnTime = 2f;
-    private float maxHeight = -0.45f;
-    private float minHeight = -2.53f;
+    private float maxHeight = -0.78f;
+    private float minHeight = -2.16f;
 
     public void OnEnable()
     {
