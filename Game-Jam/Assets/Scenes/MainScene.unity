@@ -886,6 +886,7 @@ MonoBehaviour:
   groundParent: {fileID: 846682767}
   objectParent: {fileID: 1657105398}
   cam: {fileID: 1370707137}
+  hidePhoneScript: {fileID: 1699933355}
   time: 15
   interval: 1
   intervalTime: 0
@@ -1009,6 +1010,7 @@ MonoBehaviour:
   obstaclesList: []
   obstacleTriggerResource: {fileID: 0}
   obstacleTrigger: {fileID: 0}
+  hidePhoneScript: {fileID: 1699933355}
   obstaclesParentSpawnPoint: {fileID: 884205093}
   obstaclesSpawnPoints: []
   laneParent: {fileID: 576458749}
@@ -2141,6 +2143,7 @@ MonoBehaviour:
   - {fileID: 1857036957}
   selectedPicture: {fileID: 0}
   cam: {fileID: 1370707137}
+  hidePhoneScript: {fileID: 1699933355}
   time: 7
   tolerance: 5
   minimumDefaultRotation: 120
@@ -2421,6 +2424,7 @@ RectTransform:
   - {fileID: 1167056425}
   - {fileID: 665544410}
   - {fileID: 959876561}
+  - {fileID: 1838572236}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3075,7 +3079,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1699933356}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
         m_MethodName: TogglePause
         m_Mode: 1
