@@ -89,6 +89,7 @@ public class SeparateGameManager : MonoBehaviour
             SelectObject();
             if (selectedObject != null)
             {
+                selectedObject.GetComponent<TrailRenderer>().emitting = true;
                 selectedObject.transform.position = cam.ScreenToWorldPoint(new Vector3(inputPosition.x, inputPosition.y, cam.nearClipPlane));
             }
         }
