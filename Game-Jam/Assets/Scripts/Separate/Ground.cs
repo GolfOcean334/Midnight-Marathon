@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Ground : MonoBehaviour
 {
+    [SerializeField] private List<Sprite> sprites;
+    
     [SerializeField] private SeparateGameManager.ElementType groundType;
     public SeparateGameManager.ElementType GroundType
     {
@@ -28,11 +30,11 @@ public class Ground : MonoBehaviour
     {
         if (GroundType == SeparateGameManager.ElementType.Left) // if the object is of type Left
         {
-            GetComponent<SpriteRenderer>().color = new Color(150, 0 , 0); // set the color to red
+            GetComponent<SpriteRenderer>().sprite = sprites[0]; // set the sprite to the first sprite in the list
         }
         else
         {
-            GetComponent<SpriteRenderer>().color = new Color(0, 150 , 200); // set the color to blue
+            GetComponent<SpriteRenderer>().sprite = sprites[1]; // set the sprite to the first sprite in the list
         }
     }
 }
