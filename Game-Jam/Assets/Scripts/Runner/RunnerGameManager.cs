@@ -36,7 +36,6 @@ public class RunnerGameManager : MonoBehaviour
     
     [Header("Status")] 
     [SerializeField] private bool isGameRunning;
-    [SerializeField] private bool isGameOver;
     public int score;
     
     // Start is called before the first frame update
@@ -193,7 +192,6 @@ public class RunnerGameManager : MonoBehaviour
         else if (!player.GetComponent<Player>().isAlive)
         {
             isGameRunning = false;
-            isGameOver = true;
         }
     }
 }

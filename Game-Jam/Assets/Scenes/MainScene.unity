@@ -490,7 +490,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &572080905
 Transform:
   m_ObjectHideFlags: 0
@@ -961,7 +961,6 @@ MonoBehaviour:
   obstacleSpeed: 4
   cam: {fileID: 1370707137}
   isGameRunning: 0
-  isGameOver: 0
   score: 0
 --- !u!1 &918896233
 GameObject:
@@ -1327,7 +1326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1133721751
 Transform:
   m_ObjectHideFlags: 0

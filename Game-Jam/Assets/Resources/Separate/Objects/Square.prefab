@@ -171,6 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d738bb4e93ca04883b9968b8ce8dd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectType: 1
+  objectType: 0
   isOnCorrectGround: 0
   isInTheAir: 0
