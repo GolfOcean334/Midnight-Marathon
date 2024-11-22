@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -150,6 +151,13 @@ public class CirclePuzzleGameManager : MonoBehaviour
                 score -= 100;
                 Debug.Log("You lose!");
             }
+
+            foreach (var picture in pictureParts)
+            {
+                picture.transform.DOLocalRotate(new Vector3(0, 0, 360), 3f, RotateMode.FastBeyond360);
+                picture.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 1.5f);
+            }
+            
             isGameRunning = false;
         }
     }

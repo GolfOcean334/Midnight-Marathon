@@ -144,6 +144,7 @@ public class SeparateGameManager : MonoBehaviour
         }
     }
 
+    // Manage the score
     public void ScoreManager(bool increment)
     {
         if (increment) score += 100;
