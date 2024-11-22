@@ -18,7 +18,8 @@ public class RunnerGameManager : MonoBehaviour
     [SerializeField] private List<GameObject> obstaclesList;
     [SerializeField] private GameObject obstacleTriggerResource;
     [SerializeField] private GameObject obstacleTrigger;
-    
+    public HidePhone hidePhoneScript;
+
     [Header("Obstacle Spawn Points")]
     [SerializeField] private GameObject obstaclesParentSpawnPoint;
     [SerializeField] private List<GameObject> obstaclesSpawnPoints;
@@ -41,6 +42,17 @@ public class RunnerGameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        if (hidePhoneScript == null)
+        {
+            hidePhoneScript = FindObjectOfType<HidePhone>();
+        }
+
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script not found in the scene!");
+        }
+
         obstacle = Resources.Load<GameObject>("Runner/Obstacle");
         obstacleTriggerResource = Resources.Load<GameObject>("Runner/Trigger");
         SetObstacleTrigger();
@@ -55,6 +67,7 @@ public class RunnerGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GamePaused();
         if (isGameRunning)
         {
             SpawnObstacle();
@@ -192,6 +205,26 @@ public class RunnerGameManager : MonoBehaviour
         else if (!player.GetComponent<Player>().isAlive)
         {
             isGameRunning = false;
+        }
+    }
+
+    public void GamePaused()
+    {
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script is not assigned.");
+            return;
+        }
+
+        if (hidePhoneScript.isvisble == false)
+        {
+            
+            isGameRunning = false;
+        }
+        else if (hidePhoneScript.isvisble == true)
+        {
+            
+            isGameRunning = true;
         }
     }
 }

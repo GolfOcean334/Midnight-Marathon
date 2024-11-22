@@ -26,7 +26,8 @@ public class SeparateGameManager : MonoBehaviour
     [SerializeField] private GameObject groundParent;
     [SerializeField] private GameObject objectParent;
     [SerializeField] private Camera cam;
-    
+    public HidePhone hidePhoneScript;
+
     [Header("Time")]
     [SerializeField] private float time;
     [SerializeField] private float interval;
@@ -57,7 +58,15 @@ public class SeparateGameManager : MonoBehaviour
     
     private void Awake()
     {
-        Instance = this;
+        if (hidePhoneScript == null)
+        {
+            hidePhoneScript = FindObjectOfType<HidePhone>();
+        }
+
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script not found in the scene!");
+        }
         holdAction.action.Enable();
         positionAction.action.Enable();
     }
@@ -79,6 +88,7 @@ public class SeparateGameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        GamePaused();
         if (isGameRunning)
         {
             InstantiateObject();
@@ -201,6 +211,27 @@ public class SeparateGameManager : MonoBehaviour
             ground.GetComponent<Ground>().GroundType = (ElementType)i;
             ground.transform.localScale = new Vector3(cameraWidth / 2, 0.5f, 1); // set the scale of the ground object
             ground.transform.localPosition = new Vector3((i == 0 ? -cameraWidth / 4 : cameraWidth / 4), -cameraHeight / 2 + ground.transform.localScale.y / 2, 0); // set the position of the ground object
+        }
+    }
+
+    public void GamePaused()
+    {
+        
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script is not assigned.");
+            return;  
+        }
+
+        if (hidePhoneScript.isvisble == false)
+        {
+            
+            isGameRunning = false;
+        }
+        else if (hidePhoneScript.isvisble == true)
+        {
+        
+            isGameRunning = true;
         }
     }
 }

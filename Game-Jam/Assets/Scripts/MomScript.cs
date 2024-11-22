@@ -9,49 +9,48 @@ public class MomScript : MonoBehaviour
     public Transform Spawn2;
     public Transform Spawn3;
     public Transform InitialPos;  // Position initiale de "mom"
-    public HidePhone hidePhoneScript;  // Référence au script HidePhone pour accéder à isVisible et Room
+    public HidePhone hidePhoneScript;  // Rï¿½fï¿½rence au script HidePhone pour accï¿½der ï¿½ isVisible et Room
 
     int RandomSpawn;
     float SpawnInterval; // Intervalle entre chaque spawn
-    float StayDuration;  // Durée de séjour après le spawn
+    float StayDuration;  // Durï¿½e de sï¿½jour aprï¿½s le spawn
     bool Momtrigger;
 
     Coroutine mycoroutine;
 
     private void Start()
     {
-        // Démarre le processus de spawn continu
+        // Dï¿½marre le processus de spawn continu
         StartCoroutine(MomSpawnCoroutine());
     }
 
     private void Update()
     {
-        // Vérifie continuellement si "mom" est visible et si les conditions sont remplies
         MomKiller();
     }
 
     IEnumerator MomSpawnCoroutine()
     {
-        while (true) // La boucle infinie pour faire réapparaître "mom" en continu
+        while (true) // La boucle infinie pour faire rï¿½apparaï¿½tre "mom" en continu
         {
-            // Attendre un délai aléatoire avant de faire apparaître "mom"
-            SpawnInterval = Random.Range(2f, 5f); // Intervalle entre deux apparitions aléatoires
+            // Attendre un dï¿½lai alï¿½atoire avant de faire apparaï¿½tre "mom"
+            SpawnInterval = Random.Range(2f, 5f); // Intervalle entre deux apparitions alï¿½atoires
             yield return new WaitForSeconds(SpawnInterval); // Attente avant de spawner
 
             MomSpawn(); // Appeler la fonction de spawn
 
-            // Durée de séjour aléatoire après le spawn
-            StayDuration = Random.Range(3f, 6f); // Durée de séjour aléatoire
-            yield return new WaitForSeconds(StayDuration); // Attendre le temps que "mom" reste à sa position
+            // Durï¿½e de sï¿½jour alï¿½atoire aprï¿½s le spawn
+            StayDuration = Random.Range(3f, 6f); // Durï¿½e de sï¿½jour alï¿½atoire
+            yield return new WaitForSeconds(StayDuration); // Attendre le temps que "mom" reste ï¿½ sa position
 
-            // Retourner à la position initiale après le temps de séjour
-            MoveToInitialPosition(); // Retour à la position initiale
+            // Retourner ï¿½ la position initiale aprï¿½s le temps de sï¿½jour
+            MoveToInitialPosition(); // Retour ï¿½ la position initiale
         }
     }
 
     public void MomSpawn()
     {
-        RandomSpawn = Random.Range(1, 3); // Nombre aléatoire entre 1 et 3 pour choisir le point de spawn
+        RandomSpawn = Random.Range(1, 3); // Nombre alï¿½atoire entre 1 et 3 pour choisir le point de spawn
         if (RandomSpawn == 1)
         {
             transform.position = Spawn1.position; // Positionner "mom" sur Spawn1
@@ -69,14 +68,14 @@ public class MomScript : MonoBehaviour
         }
     }
 
-    // Fonction pour déplacer "mom" vers sa position initiale
+    // Fonction pour dï¿½placer "mom" vers sa position initiale
     public void MoveToInitialPosition()
     {
-        transform.position = InitialPos.position;  // Déplacer "mom" à la position initiale
-        Momtrigger = false; // Assurez-vous que Momtrigger soit réinitialisé après qu'elle soit retournée à sa position initiale
+        transform.position = InitialPos.position;  // Dï¿½placer "mom" ï¿½ la position initiale
+        Momtrigger = false; // Assurez-vous que Momtrigger soit rï¿½initialisï¿½ aprï¿½s qu'elle soit retournï¿½e ï¿½ sa position initiale
     }
 
-    // Fonction qui gère la couleur de la Room dans HidePhone en fonction de isVisible et Momtrigger
+    // Fonction qui gï¿½re la couleur de la Room dans HidePhone en fonction de isVisible et Momtrigger
     public void MomKiller()
     {
         if (Momtrigger && hidePhoneScript != null)
