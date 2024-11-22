@@ -10,6 +10,7 @@ public class HidePhone : MonoBehaviour
 
     void Start()
     {
+        isvisble = true;
     }
 
     void Update()

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;  // Assure-toi d'importer UnityEngine.UI pour manipuler Image
+using UnityEngine.SceneManagement;
 
 public class MomScript : MonoBehaviour
 {
@@ -22,6 +23,11 @@ public class MomScript : MonoBehaviour
     {
         // Démarre le processus de spawn continu
         StartCoroutine(MomSpawnCoroutine());
+    }
+
+    private void Update()
+    {
+        MomKiller();
     }
 
     IEnumerator MomSpawnCoroutine()
@@ -61,7 +67,7 @@ public class MomScript : MonoBehaviour
             transform.position = Spawn3.position; // Positionner "mom" sur Spawn3
             Momtrigger = true;
         }
-        MomKiller();
+        
     }
 
     // Fonction pour déplacer "mom" vers sa position initiale
@@ -75,29 +81,9 @@ public class MomScript : MonoBehaviour
     {
         if (Momtrigger && hidePhoneScript != null)
         {
-            if (hidePhoneScript.isvisble) // Vérifie si la Room est visible
+            if (hidePhoneScript.isvisble == true && Momtrigger == true) // Vérifie si la Room est visible
             {
-                // Change la couleur de la Room en rouge si isVisible est true
-                Image roomImage = hidePhoneScript.Room.GetComponent<Image>();
-                if (roomImage != null)
-                {
-                    Debug.Log("Changement de couleur en rouge");
-                    roomImage.color = Color.red;  // Change la couleur de l'image en rouge
-                }
-                else
-                {
-                    Debug.LogWarning("Le composant Image n'a pas été trouvé sur Room !");
-                }
-            }
-            else
-            {
-                // Si la Room n'est pas visible, on remet la couleur à la normale
-                Image roomImage = hidePhoneScript.Room.GetComponent<Image>();
-                if (roomImage != null)
-                {
-                    Debug.Log("Changement de couleur en blanc");
-                    roomImage.color = Color.white;  // Retour à la couleur d'origine (ou autre couleur)
-                }
+                SceneManager.LoadScene("EndMenu");
             }
         }
     }
