@@ -62,5 +62,6 @@ public class ChangeMinigame : MonoBehaviour
     {
         // Choisir un autre jeu à jouer
         ChooseRandomGame();
+        FindObjectOfType<VisualTimerMiniGames>().ResetTimer();
     }
 }
