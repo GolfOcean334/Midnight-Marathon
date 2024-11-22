@@ -31,8 +31,8 @@ public class GameManager : MonoBehaviour
 
     public void IncrementScore()
     {
-        score++;
-        UpdateScoreUI();
+        score++;  
+        UpdateScoreUI();  
     }
 
     private void UpdateScoreUI()

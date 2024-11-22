@@ -18,11 +18,6 @@ public class AddScore : MonoBehaviour
             {
                 GameManager.Instance.IncrementScore();
                 Destroy(gameObject);
-                Debug.Log("Score Added");
-            }
-            else
-            {
-                Debug.LogError("GameManager instance is not set.");
             }
         }
     }
