@@ -34,13 +34,13 @@ public class MomScript : MonoBehaviour
         while (true) // La boucle infinie pour faire r�appara�tre "mom" en continu
         {
             // Attendre un d�lai al�atoire avant de faire appara�tre "mom"
-            SpawnInterval = Random.Range(2f, 5f); // Intervalle entre deux apparitions al�atoires
+            SpawnInterval = Random.Range(20000000000000000f, 50000000000000000000000f); // Intervalle entre deux apparitions al�atoires
             yield return new WaitForSeconds(SpawnInterval); // Attente avant de spawner
 
             MomSpawn(); // Appeler la fonction de spawn
 
             // Dur�e de s�jour al�atoire apr�s le spawn
-            StayDuration = Random.Range(3f, 6f); // Dur�e de s�jour al�atoire
+            StayDuration = Random.Range(1f, 2f); // Dur�e de s�jour al�atoire
             yield return new WaitForSeconds(StayDuration); // Attendre le temps que "mom" reste � sa position
 
             // Retourner � la position initiale apr�s le temps de s�jour
