@@ -4,7 +4,7 @@ public class UIButtonAnimation : MonoBehaviour
 {
     [SerializeField] private RectTransform[] stars;
     [SerializeField] private int[] scoreThresholds = { 200, 500, 1000 };
-    [SerializeField] private int playerScore = 0;
+    [SerializeField] private int playerScore = 0; // A modifier pour récupérer le vrai score
     [SerializeField] private Color unlockedColor = new Color(245 / 255f, 213 / 255f, 112 / 255f);
 
     void Start()

@@ -547,7 +547,7 @@ MonoBehaviour:
   - {fileID: 468277801}
   - {fileID: 268775016}
   scoreThresholds: c8000000f4010000e8030000
-  playerScore: 1000
+  playerScore: 0
   unlockedColor: {r: 0.9607843, g: 0.8352941, b: 0.4392157, a: 1}
 --- !u!1 &832111238
 GameObject:
@@ -1451,6 +1451,7 @@ GameObject:
   - component: {fileID: 1558609588}
   - component: {fileID: 1558609590}
   - component: {fileID: 1558609589}
+  - component: {fileID: 1558609591}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1499,8 +1500,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Score :'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9c6edfafe72b92e429f8af7c5b8e39cd, type: 2}
-  m_sharedMaterial: {fileID: -9058823307161816434, guid: 9c6edfafe72b92e429f8af7c5b8e39cd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 919f9e0da3483b84b9ad143cfc4a56d3, type: 2}
+  m_sharedMaterial: {fileID: 7531355671366480786, guid: 919f9e0da3483b84b9ad143cfc4a56d3, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1524,7 +1525,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.95
+  m_fontSize: 57.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1574,6 +1575,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558609587}
   m_CullTransparentMesh: 1
+--- !u!114 &1558609591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558609587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f040330190b4db4eb44eb500f20106e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerScore: 0
+  scoreText: {fileID: 1558609589}
 --- !u!1 &1941088951
 GameObject:
   m_ObjectHideFlags: 0
