@@ -18,29 +18,42 @@ public class RunnerGameManager : MonoBehaviour
     [SerializeField] private List<GameObject> obstaclesList;
     [SerializeField] private GameObject obstacleTriggerResource;
     [SerializeField] private GameObject obstacleTrigger;
-    
+    public HidePhone hidePhoneScript;  // r�f�rence au script HidePhone
+
     [Header("Obstacle Spawn Points")]
     [SerializeField] private GameObject obstaclesParentSpawnPoint;
     [SerializeField] private List<GameObject> obstaclesSpawnPoints;
-    
+
     [Header("Lanes")]
     [SerializeField] private GameObject laneParent;
     [SerializeField] private List<GameObject> lanes;
-    
+
     [Header("Player")]
     [SerializeField] private GameObject player;
-    
+
     [Header("Gameplay")]
     [SerializeField] private float obstacleSpeed;
     [SerializeField] private Camera cam;
-    
-    [Header("Status")] 
+
+    [Header("Status")]
     [SerializeField] private bool isGameRunning;
     public int score;
-    
+
     // Start is called before the first frame update
     void Start()
     {
+        // Si hidePhoneScript n'est pas assign� dans l'inspecteur, essayer de le trouver automatiquement
+        if (hidePhoneScript == null)
+        {
+            hidePhoneScript = FindObjectOfType<HidePhone>();  // Trouver le premier objet HidePhone dans la sc�ne
+        }
+
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script not found in the scene!");
+        }
+
+
         obstacle = Resources.Load<GameObject>("Runner/Obstacle");
         obstacleTriggerResource = Resources.Load<GameObject>("Runner/Trigger");
         SetObstacleTrigger();
@@ -55,6 +68,7 @@ public class RunnerGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GamePaused();
         if (isGameRunning)
         {
             SpawnObstacle();
@@ -79,7 +93,7 @@ public class RunnerGameManager : MonoBehaviour
             obstaclesSpawnPoints.Add(child.gameObject);
         }
     }
-    
+
     // Get the lanes
     private void GetLanes()
     {
@@ -88,7 +102,7 @@ public class RunnerGameManager : MonoBehaviour
             lanes.Add(child.gameObject);
         }
     }
-    
+
     // Set the obstacles spawn points position
     private void SetObstaclesSpawnPoints()
     {
@@ -122,11 +136,11 @@ public class RunnerGameManager : MonoBehaviour
         float screenAspect = (float)Screen.width / (float)Screen.height; // get the screen aspect ratio
         float cameraHeight = cam.orthographicSize * 2; // get the camera height
         float cameraWidth = cameraHeight * screenAspect; // get the camera width
-        
+
         obstacleTrigger = Instantiate(obstacleTriggerResource, new Vector3(0, 0 - cameraHeight / 2 - obstacleTriggerResource.transform.localScale.y, 0), Quaternion.identity);
         obstacleTrigger.transform.localScale = new Vector3(cameraWidth, obstacleTriggerResource.transform.localScale.y, obstacleTriggerResource.transform.localScale.z);
     }
-    
+
     // Spawn the obstacles
     private void SpawnObstacle()
     {
@@ -158,7 +172,7 @@ public class RunnerGameManager : MonoBehaviour
             intervalTime -= Time.deltaTime;
         }
     }
-    
+
     private void MoveObstacles()
     {
         for (int i = 0; i < obstaclesList.Count; i++)
@@ -174,24 +188,76 @@ public class RunnerGameManager : MonoBehaviour
             obsRb.velocity = new Vector3(0, -obstacleSpeed, 0);
         }
     }
-    
+
     // Decrease the time
     private void DecreaseTime()
     {
         if (time <= 0) return;
         time -= Time.deltaTime;
     }
-    
+
     // End of the game
     private void EndOfGame()
     {
-        if (time <= 0f) // if the time is up
+        if (time <= 0f || !player.GetComponent<Player>().isAlive) // Si le temps est �coul� ou si le joueur est mort
         {
             isGameRunning = false;
-        }
-        else if (!player.GetComponent<Player>().isAlive)
-        {
-            isGameRunning = false;
+
+            // Appeler la fonction de r�initialisation du jeu
+            ResetGame();
+
+            // Passer au prochain mini-jeu ou terminer
+            FindObjectOfType<ChangeMinigame>().OnGameOver();
         }
     }
+
+
+    public void ResetGame()
+    {
+        // R�initialiser le score et le temps
+        score = 0;
+        time = 30f; // ou la valeur initiale du temps, par exemple 60 secondes
+
+        // R�initialiser l'�tat du jeu
+        isGameRunning = true;
+        isGameOver = false;
+
+        // R�initialiser la position du joueur (si n�cessaire, pour un jeu de course cela peut inclure la remise � z�ro de la position)
+        player.transform.position = Vector3.zero; // ou la position initiale de votre joueur
+
+        // R�initialiser tous les obstacles existants
+        foreach (var obstacle in obstaclesList)
+        {
+            Destroy(obstacle);
+        }
+        obstaclesList.Clear();
+
+        // R�initialiser l'intervalle de spawn des obstacles
+        intervalTime = 0;
+
+        // Recr�er les obstacles � partir de leurs points de spawn
+        SpawnObstacle();
+    }
+
+    public void GamePaused()
+    {
+        // V�rifier si hidePhoneScript est assign�
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script is not assigned.");
+            return;  // Retourner si la r�f�rence est null
+        }
+
+        if (hidePhoneScript.isvisble == false)
+        {
+            // Si le t�l�phone est cach�, on met le jeu en pause
+            isGameRunning = false;
+        }
+        else if (hidePhoneScript.isvisble == true)
+        {
+            // Si le t�l�phone est visible, on red�marre le jeu
+            isGameRunning = true;
+        }
+    }
+
 }
