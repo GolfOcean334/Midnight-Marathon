@@ -1,18 +1,29 @@
 using DG.Tweening;
 using UnityEngine;
+using TMPro;
 using UnityEngine.EventSystems;
-public class UIButtonAnimation : MonoBehaviour
+
+public class DoTween : MonoBehaviour
 {
-    [SerializeField] private RectTransform[] stars;
-    [SerializeField] private int[] scoreThresholds = { 200, 500, 1000 };
-    [SerializeField] private int playerScore = 0; // A modifier pour récupérer le vrai score
-    [SerializeField] private Color unlockedColor = new Color(245 / 255f, 213 / 255f, 112 / 255f);
+    [SerializeField] private RectTransform title;
+    [SerializeField] private TextMeshProUGUI textTitle;
     [SerializeField] private RectTransform[] buttons;
 
-    void Start()
+    private void Start()
     {
-        AnimateStarsBasedOnScore();
+        // Animation du titre
+        if (title != null)
+        {
+            AnimatedTitle(title);
+        }
 
+        // Animation de la couleur du texte
+        if (textTitle != null)
+        {
+            AnimateColor();
+        }
+
+        // Attacher les événements pour les boutons
         foreach (var button in buttons)
         {
             if (button != null)
@@ -22,27 +33,17 @@ public class UIButtonAnimation : MonoBehaviour
         }
     }
 
-    void AnimateStarsBasedOnScore()
+    void AnimatedTitle(RectTransform title)
     {
-        for (int i = 0; i < stars.Length; i++)
-        {
-            if (playerScore >= scoreThresholds[i])
-            {
-                UnlockStar(stars[i]);
-            }
-        }
+        title.DOScale(new Vector3(1.2f, 1.2f, 1.0f), 1.0f)
+            .SetEase(Ease.Linear)
+            .SetLoops(-1, LoopType.Yoyo);
     }
 
-    void UnlockStar(RectTransform star)
+    void AnimateColor()
     {
-        var starImage = star.GetComponent<UnityEngine.UI.Image>();
-        if (starImage != null)
-        {
-            starImage.color = unlockedColor;
-        }
-
-        star.DOScale(new Vector3(1.2f, 1.2f, 1.0f), 0.8f)
-            .SetEase(Ease.OutElastic)
+        textTitle.DOColor(Color.black, 1.0f)
+            .SetEase(Ease.Linear)
             .SetLoops(-1, LoopType.Yoyo);
     }
 
