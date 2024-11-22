@@ -14,44 +14,54 @@ public class CirclePuzzleGameManager : MonoBehaviour
     [SerializeField] private InputActionReference positionAction;
     [SerializeField] private Vector2 inputPosition;
     [SerializeField] private float selectionValue;
-    
+
     [Header("Game Objects")]
     [SerializeField] private List<GameObject> pictureParts;
     [SerializeField] private GameObject selectedPicture;
     [SerializeField] private Camera cam;
-    
+    public HidePhone hidePhoneScript;
+
     [Header("Time")]
     [SerializeField] private float time;
-    
+
     [Header("Gameplay")]
     [SerializeField] private float tolerance;
     [SerializeField] private float minimumDefaultRotation;
     [SerializeField] private float maximumDefaultRotation;
-    
+
     [Header("Status")]
     [SerializeField] private bool isGameRunning;
     [SerializeField] private bool isGameOver;
     public int score;
-    
+
     private void OnEnable()
     {
         holdAction.action.Enable();
         positionAction.action.Enable();
     }
-    
+
     private void OnDisable()
     {
         holdAction.action.Disable();
         positionAction.action.Disable();
     }
-    
+
     private void Awake()
     {
+        if (hidePhoneScript == null)
+        {
+            hidePhoneScript = FindObjectOfType<HidePhone>();
+        }
+
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script not found in the scene!");
+        }
+
         holdAction.action.Enable();
         positionAction.action.Enable();
     }
-    
-    // Start is called before the first frame update
+
     void Start()
     {
         isGameRunning = true;
@@ -59,9 +69,9 @@ public class CirclePuzzleGameManager : MonoBehaviour
         RotateObject();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        GamePaused();
         if (isGameRunning)
         {
             DecreaseTime();
@@ -76,7 +86,6 @@ public class CirclePuzzleGameManager : MonoBehaviour
         }
     }
 
-    // Position the objects
     private void PositionObjects()
     {
         float screenWidth = Screen.width;
@@ -90,14 +99,12 @@ public class CirclePuzzleGameManager : MonoBehaviour
             pictureParts[i].transform.position = new Vector3(0, worldPosition.y, 0);
         }
     }
-    
-    // Rotate the object randomly
+
     private void RotateObject()
     {
         pictureParts[0].transform.rotation = Quaternion.Euler(0, 0, Random.Range(minimumDefaultRotation, maximumDefaultRotation));
     }
-    
-    // Select the object
+
     private void SelectObject()
     {
         if (selectionValue > 0f)
@@ -109,7 +116,7 @@ public class CirclePuzzleGameManager : MonoBehaviour
             }
         }
     }
-    
+
     private void ReturnToZero()
     {
         if (pictureParts[0].transform.rotation.z >= 360f)
@@ -121,25 +128,23 @@ public class CirclePuzzleGameManager : MonoBehaviour
             pictureParts[0].transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
-    
+
     private void GetInput()
     {
         inputPosition = positionAction.action.ReadValue<Vector2>();
         selectionValue = holdAction.action.ReadValue<float>();
         if (selectionValue == 0f) selectedPicture = null;
     }
-    
-    // Decrease the time
+
     private void DecreaseTime()
     {
         if (time <= 0) return;
         time -= Time.deltaTime;
     }
-    
-    // End of the game
+
     private void EndOfGame()
     {
-        if (time <= 0f) // if the time is up
+        if (time <= 0f)
         {
             if (Mathf.Abs(pictureParts[0].transform.localRotation.eulerAngles.z) <= tolerance)
             {
@@ -159,6 +164,23 @@ public class CirclePuzzleGameManager : MonoBehaviour
             }
             
             isGameRunning = false;
+        }
+    }
+    public void GamePaused()
+    {
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script is not assigned.");
+            return;
+        }
+
+        if (hidePhoneScript.isvisble == false)
+        {
+            isGameRunning = false;
+        }
+        else if (hidePhoneScript.isvisble == true)
+        {
+            isGameRunning = true;
         }
     }
 }
