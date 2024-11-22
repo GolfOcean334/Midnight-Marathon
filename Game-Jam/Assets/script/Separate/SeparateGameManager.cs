@@ -58,6 +58,7 @@ public class SeparateGameManager : MonoBehaviour
     
     private void Awake()
     {
+        Instance = this;
         if (hidePhoneScript == null)
         {
             hidePhoneScript = FindObjectOfType<HidePhone>();

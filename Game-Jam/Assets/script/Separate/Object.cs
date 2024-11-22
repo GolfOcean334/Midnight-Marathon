@@ -37,8 +37,8 @@ public class Object : MonoBehaviour
         }
         isInTheAir = false;
         GetComponent<Rigidbody2D>().simulated = false; // stop the object from moving
-        transform.DOShakePosition(0.2f, new Vector3(0.1f, 0.1f, 0f), 5, 90, false, true, ShakeRandomnessMode.Full); // shake the object
-        FadeOut(); // fade out the object
+        transform.DOShakePosition(0.2f, new Vector3(0.1f, 0.1f, 0f), 5, 90, false, true);
+        FadeOut(); // shake the object // fade out the object
     }
     
     // Fade out the object then destroy it
