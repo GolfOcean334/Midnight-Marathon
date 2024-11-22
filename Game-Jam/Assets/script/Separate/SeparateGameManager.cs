@@ -152,6 +152,7 @@ public class SeparateGameManager : MonoBehaviour
             }
             Debug.Log("Score : " + score);
             isGameRunning = false;
+            FindObjectOfType<ChangeMinigame>().OnGameOver();
         }
     }
 

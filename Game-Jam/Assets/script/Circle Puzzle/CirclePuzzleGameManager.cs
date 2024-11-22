@@ -150,11 +150,13 @@ public class CirclePuzzleGameManager : MonoBehaviour
             {
                 score += 100;
                 Debug.Log("You win!");
+                FindObjectOfType<ChangeMinigame>().OnGameOver();
             }
             else
             {
                 score -= 100;
                 Debug.Log("You lose!");
+                FindObjectOfType<ChangeMinigame>().OnGameOver();
             }
 
             foreach (var picture in pictureParts)
