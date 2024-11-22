@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ChangeSceneS : MonoBehaviour
+public class ChangeScene : MonoBehaviour
 {
     public void GoMainScene()
     {
