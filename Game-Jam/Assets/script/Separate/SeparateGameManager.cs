@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -27,9 +28,11 @@ public class SeparateGameManager : MonoBehaviour
     [SerializeField] private GameObject objectParent;
     [SerializeField] private Camera cam;
     public HidePhone hidePhoneScript;
+    [SerializeField] private GameObject changeMiniGame;
 
     [Header("Time")]
     [SerializeField] private float time;
+    [SerializeField] private float defaultTime;
     [SerializeField] private float interval;
     [SerializeField] private float intervalTime;
 
@@ -58,6 +61,8 @@ public class SeparateGameManager : MonoBehaviour
     
     private void Awake()
     {
+        Instance = this;
+        
         if (hidePhoneScript == null)
         {
             hidePhoneScript = FindObjectOfType<HidePhone>();
@@ -78,6 +83,7 @@ public class SeparateGameManager : MonoBehaviour
         groundToSpawn = Resources.Load<GameObject>("Separate/Ground/Ground");
         FitBordersToScreen();
         InitializeGrounds();
+        time = defaultTime;
         isGameRunning = true;
     }
 
@@ -152,7 +158,14 @@ public class SeparateGameManager : MonoBehaviour
             }
             Debug.Log("Score : " + score);
             isGameRunning = false;
-            FindObjectOfType<ChangeMinigame>().OnGameOver();
+
+            foreach (var objectToKill in objects.ToList())
+            {
+                objects.Remove(objectToKill);
+                Destroy(objectToKill);
+            }
+            
+            changeMiniGame.GetComponent<ChangeMinigame>().OnGameOver();
         }
     }
 
@@ -196,7 +209,8 @@ public class SeparateGameManager : MonoBehaviour
             objects.Add(obj);
             intervalTime = 0; // reset the interval time
         }
-        intervalTime += Time.deltaTime;
+
+        if (isGameRunning) intervalTime += Time.deltaTime; // increment the interval time
     }
     
     // Initialize the ground objects
@@ -226,13 +240,19 @@ public class SeparateGameManager : MonoBehaviour
 
         if (hidePhoneScript.isvisble == false)
         {
-            
             isGameRunning = false;
         }
         else if (hidePhoneScript.isvisble == true)
         {
-        
             isGameRunning = true;
         }
+    }
+    
+    public void ResetGame()
+    {
+        objects.Clear();
+        time = defaultTime;
+        score = 0;
+        isGameRunning = true;
     }
 }

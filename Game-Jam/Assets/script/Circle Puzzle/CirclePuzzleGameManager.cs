@@ -20,9 +20,11 @@ public class CirclePuzzleGameManager : MonoBehaviour
     [SerializeField] private GameObject selectedPicture;
     [SerializeField] private Camera cam;
     public HidePhone hidePhoneScript;
+    [SerializeField] private GameObject changeMiniGame;
 
     [Header("Time")]
     [SerializeField] private float time;
+    [SerializeField] private float defaultTime;
 
     [Header("Gameplay")]
     [SerializeField] private float tolerance;
@@ -64,9 +66,10 @@ public class CirclePuzzleGameManager : MonoBehaviour
 
     void Start()
     {
-        isGameRunning = true;
+        time = defaultTime;
         PositionObjects();
         RotateObject();
+        isGameRunning = true;
     }
 
     void Update()
@@ -150,24 +153,24 @@ public class CirclePuzzleGameManager : MonoBehaviour
             {
                 score += 100;
                 Debug.Log("You win!");
-                FindObjectOfType<ChangeMinigame>().OnGameOver();
             }
             else
             {
                 score -= 100;
                 Debug.Log("You lose!");
-                FindObjectOfType<ChangeMinigame>().OnGameOver();
             }
 
-            foreach (var picture in pictureParts)
-            {
-                picture.transform.DOLocalRotate(new Vector3(0, 0, 360), 3f, RotateMode.FastBeyond360);
-                picture.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 1.5f);
-            }
-            
+            // foreach (var picture in pictureParts)
+            // {
+            //     picture.transform.DOLocalRotate(new Vector3(0, 0, 360), 3f, RotateMode.FastBeyond360);
+            //     picture.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 1.5f);
+            // }
+
             isGameRunning = false;
+            changeMiniGame.GetComponent<ChangeMinigame>().OnGameOver(); // Appeler OnGameOver ici
         }
     }
+    
     public void GamePaused()
     {
         if (hidePhoneScript == null)
@@ -184,5 +187,13 @@ public class CirclePuzzleGameManager : MonoBehaviour
         {
             isGameRunning = true;
         }
+    }
+    
+    public void ResetGame()
+    {
+        RotateObject();
+        time = defaultTime;
+        isGameRunning = true;
+        score = 0;
     }
 }

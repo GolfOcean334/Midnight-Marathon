@@ -4,63 +4,54 @@ using UnityEngine;
 
 public class ChangeMinigame : MonoBehaviour
 {
-    public GameObject Game1;
-    public GameObject Game2;
-    public GameObject Game3;
-
-    private List<GameObject> games = new List<GameObject>();
+    [SerializeField] private List<GameObject> games;
+    [SerializeField] private List<GameObject> managers;
+    private int currentGameIndex = -1;
     private GameObject currentGame;
+    private GameObject currentManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Ajouter tous les jeux à la liste
-        games.Add(Game1);
-        games.Add(Game2);
-        games.Add(Game3);
-
-        // Initialiser avec un jeu au hasard
+        // Initialize with a random game
         ChooseRandomGame();
     }
 
-    // Fonction pour choisir un jeu au hasard, en évitant de sélectionner celui précédemment joué
+    // Function to choose a random game, avoiding the previously played one
     void ChooseRandomGame()
     {
-        // Choisir un jeu au hasard mais en excluant le jeu actuel
-        List<GameObject> availableGames = new List<GameObject>(games);
-        if (currentGame != null)
+        int previousIndex = currentGameIndex;
+        while (currentGameIndex == previousIndex)
         {
-            availableGames.Remove(currentGame);  // Exclure le jeu actuel
+            currentGameIndex = Random.Range(0, games.Count);
         }
 
-        // Choisir un jeu aléatoire parmi ceux qui restent
-        int randomIndex = Random.Range(0, availableGames.Count);
-        GameObject nextGame = availableGames[randomIndex];
-
-        // Activer ce jeu et désactiver les autres
-        SetActiveGame(nextGame);
-    }
-
-    // Fonction pour activer le jeu sélectionné et désactiver les autres
-    void SetActiveGame(GameObject game)
-    {
-        // Désactiver tous les jeux
-        foreach (var g in games)
+        foreach (var game in games)
         {
-            g.SetActive(false);
+            game.SetActive(game == games[currentGameIndex]);
         }
 
-        // Mettre à jour le jeu actuel
-        currentGame = game;
-
-        // Activer le jeu sélectionné
-        currentGame.SetActive(true);
+        // Reset the new game
+        currentGame = games[currentGameIndex];
+        currentManager = managers[currentGameIndex];
+        if (currentManager.GetComponent<SeparateGameManager>() != null)
+        {
+            currentManager.GetComponent<SeparateGameManager>().ResetGame();
+        }
+        else if (currentManager.GetComponent<RunnerGameManager>() != null)
+        {
+            currentManager.GetComponent<RunnerGameManager>().ResetGame();
+        }
+        else if (currentManager.GetComponent<CirclePuzzleGameManager>() != null)
+        {
+            currentManager.GetComponent<CirclePuzzleGameManager>().ResetGame();
+        }
     }
 
-    // Cette fonction peut être appelée lorsque le jeu actuel se termine (par exemple dans la gestion du score)
+    // This function can be called when the current game ends (e.g., in score management)
     public void OnGameOver()
     {
-        // Choisir un autre jeu à jouer
+        // Choose another game to play
         ChooseRandomGame();
     }
 }
