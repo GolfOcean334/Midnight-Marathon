@@ -458,7 +458,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8103712331801653544}
-  - component: {fileID: 197865053318285969}
   - component: {fileID: 3818664611983992430}
   m_Layer: 0
   m_Name: backgrounds
@@ -486,18 +485,6 @@ Transform:
   - {fileID: 3454531709266140777}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &197865053318285969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7438531727093152538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81242deee4bce5d47866d8621e60e184, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &3818664611983992430
 BoxCollider2D:
   m_ObjectHideFlags: 0
