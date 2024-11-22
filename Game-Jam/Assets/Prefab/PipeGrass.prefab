@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8278734307377634399}
   m_Layer: 7
   m_Name: rockGrassDown
-  m_TagString: PipeGrass
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 7924195404853754471}
   m_Layer: 7
   m_Name: rockGrass
-  m_TagString: PipeGrass
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -506,4 +506,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cc823e9152c6024a872cef4ac773a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 0}

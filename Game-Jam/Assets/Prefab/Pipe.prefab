@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8808916948312178417}
   m_Layer: 6
   m_Name: rockDown
-  m_TagString: Pipe
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 876503080118152488}
   m_Layer: 6
   m_Name: rock
-  m_TagString: Pipe
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -461,7 +461,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cc823e9152c6024a872cef4ac773a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 0}
 --- !u!1 &8726038361328381954
 GameObject:
   m_ObjectHideFlags: 0
