@@ -23,5 +23,6 @@ public class SpawnManager : MonoBehaviour
     {
         float randomHeight = Random.Range(minHeight, maxHeight);
         GameObject pipe = Instantiate(pipePrefab[Random.Range(0, pipePrefab.Length)]);
+        pipe.transform.position = new Vector3(pipe.transform.position.x, randomHeight, pipe.transform.position.z);
     }
 }

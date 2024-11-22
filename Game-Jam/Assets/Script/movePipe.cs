@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class movePipe : MonoBehaviour
 {
-    public float speed = 5f;
-    public float leftEdge = -5;
-
+    private float speed = 5f;
+    private float leftEdge = -6.40f;
+    
     private void Start()
     {
-        // leftEdge = Camera.main.ScreenToViewportPoint(Vector3.zero).x - 1f;
     }
 
     private void Update()
