@@ -18,6 +18,7 @@ public class SeparateGameManager : MonoBehaviour
     [SerializeField] private List<GameObject> walls;
     [SerializeField] private List<GameObject> objectsToSpawn;
     [SerializeField] private List<GameObject> objects;
+    [SerializeField] private GameObject selectedObject;
     [SerializeField] private GameObject objectSpawnPoint;
     [SerializeField] private GameObject groundToSpawn;
     [SerializeField] private GameObject groundParent;
@@ -71,6 +72,10 @@ public class SeparateGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+    private void FixedUpdate()
+    {
         if (isGameRunning)
         {
             InstantiateObject();
@@ -78,6 +83,10 @@ public class SeparateGameManager : MonoBehaviour
             EndOfGame();
             GetInput();
             SelectObject();
+            if (selectedObject != null)
+            {
+                selectedObject.transform.position = cam.ScreenToWorldPoint(new Vector3(inputPosition.x, inputPosition.y, cam.nearClipPlane));
+            }
         }
     }
 
@@ -85,17 +94,17 @@ public class SeparateGameManager : MonoBehaviour
     {
         inputPosition = positionAction.action.ReadValue<Vector2>();
         selectionValue = holdAction.action.ReadValue<float>();
+        if (selectionValue == 0f) selectedObject = null;
     }
-    
-    // Select the object
+
     private void SelectObject()
     {
-        if (selectionValue > 0f)
+        if (selectionValue != 0f)
         {
             RaycastHit2D hit = Physics2D.Raycast(cam.ScreenToWorldPoint(inputPosition), Vector2.zero);
             if (hit.collider != null && hit.collider.GetComponent<Object>() != null)
             {
-                hit.transform.position = cam.ScreenToWorldPoint(new Vector3(inputPosition.x, inputPosition.y, cam.nearClipPlane));
+                selectedObject = objects.FirstOrDefault(x => x == hit.collider.gameObject);
             }
         }
     }
