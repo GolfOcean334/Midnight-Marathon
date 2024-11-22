@@ -131,6 +131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 84127110}
+  - component: {fileID: 84127111}
   m_Layer: 5
   m_Name: MainButton
   m_TagString: Untagged
@@ -160,6 +161,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &84127111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84127109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0558c5997ad7baf4681a146b193896e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &252959629
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,8 +601,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 94}
-  m_SizeDelta: {x: 500, y: 100}
+  m_AnchoredPosition: {x: 0, y: 44}
+  m_SizeDelta: {x: 500, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &832111240
 MonoBehaviour:
@@ -989,6 +1002,7 @@ GameObject:
   - component: {fileID: 1236615498}
   - component: {fileID: 1236615500}
   - component: {fileID: 1236615499}
+  - component: {fileID: 1236615501}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1035,7 +1049,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Vicory or Defete
+  m_text: Victory or Defeat
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 919f9e0da3483b84b9ad143cfc4a56d3, type: 2}
   m_sharedMaterial: {fileID: 7531355671366480786, guid: 919f9e0da3483b84b9ad143cfc4a56d3, type: 2}
@@ -1062,7 +1076,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 57.1
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1112,6 +1126,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1236615497}
   m_CullTransparentMesh: 1
+--- !u!114 &1236615501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236615497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb0eb9a78fd3f44bbf672a3aa341973, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerScore: 1000
+  winMessage: {fileID: 1236615499}
+  defeatMessage: {fileID: 1236615499}
 --- !u!1 &1306855075
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,7 +1314,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1482091742}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 84127111}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: GoMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1482091742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1405,7 +1446,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1506753241}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 84127111}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: GoMainScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1506753241
 MonoBehaviour:
   m_ObjectHideFlags: 0

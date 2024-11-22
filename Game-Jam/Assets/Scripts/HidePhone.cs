@@ -5,16 +5,17 @@ using UnityEngine;
 public class HidePhone : MonoBehaviour
 {
     public GameObject Room;
-    public bool isvisble;
-
+    public bool isvisble = true;
 
     void Start()
     {
+        // Mettre � jour isvisble en fonction de l'�tat actuel de Room
+        isvisble = Room.activeInHierarchy;
     }
 
     void Update()
     {
-        
+        // Vous pouvez ajouter d'autres logiques ici si n�cessaire
     }
 
     public void changeVisibilityOnClick()
@@ -29,6 +30,5 @@ public class HidePhone : MonoBehaviour
             Room.SetActive(true);
             isvisble = true;
         }
-
     }
 }
