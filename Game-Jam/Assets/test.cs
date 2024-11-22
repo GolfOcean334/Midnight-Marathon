@@ -13,7 +13,7 @@ public class test : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += new Vector3(0.01f, 0, 0);
+       // transform.position += new Vector3(0.01f, 0, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
