@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;  // Assure-toi d'importer UnityEngine.UI pour manipuler Image
-
+using UnityEngine.SceneManagement;
 public class MomScript : MonoBehaviour
 {
     public Transform Spawn1;
@@ -22,6 +22,12 @@ public class MomScript : MonoBehaviour
     {
         // Démarre le processus de spawn continu
         StartCoroutine(MomSpawnCoroutine());
+    }
+
+    private void Update()
+    {
+        // Vérifie continuellement si "mom" est visible et si les conditions sont remplies
+        MomKiller();
     }
 
     IEnumerator MomSpawnCoroutine()
@@ -45,7 +51,7 @@ public class MomScript : MonoBehaviour
 
     public void MomSpawn()
     {
-        RandomSpawn = Random.Range(1, 4); // Nombre aléatoire entre 1 et 3 pour choisir le point de spawn
+        RandomSpawn = Random.Range(1, 3); // Nombre aléatoire entre 1 et 3 pour choisir le point de spawn
         if (RandomSpawn == 1)
         {
             transform.position = Spawn1.position; // Positionner "mom" sur Spawn1
@@ -61,13 +67,13 @@ public class MomScript : MonoBehaviour
             transform.position = Spawn3.position; // Positionner "mom" sur Spawn3
             Momtrigger = true;
         }
-        MomKiller();
     }
 
     // Fonction pour déplacer "mom" vers sa position initiale
     public void MoveToInitialPosition()
     {
         transform.position = InitialPos.position;  // Déplacer "mom" à la position initiale
+        Momtrigger = false; // Assurez-vous que Momtrigger soit réinitialisé après qu'elle soit retournée à sa position initiale
     }
 
     // Fonction qui gère la couleur de la Room dans HidePhone en fonction de isVisible et Momtrigger
@@ -75,29 +81,13 @@ public class MomScript : MonoBehaviour
     {
         if (Momtrigger && hidePhoneScript != null)
         {
-            if (hidePhoneScript.isvisble) // Vérifie si la Room est visible
+            Debug.Log("Momtrigger: " + Momtrigger);
+            Debug.Log("isvisble: " + hidePhoneScript.isvisble);
+
+            if (hidePhoneScript.isvisble == true && Momtrigger == true)
             {
-                // Change la couleur de la Room en rouge si isVisible est true
-                Image roomImage = hidePhoneScript.Room.GetComponent<Image>();
-                if (roomImage != null)
-                {
-                    Debug.Log("Changement de couleur en rouge");
-                    roomImage.color = Color.red;  // Change la couleur de l'image en rouge
-                }
-                else
-                {
-                    Debug.LogWarning("Le composant Image n'a pas été trouvé sur Room !");
-                }
-            }
-            else
-            {
-                // Si la Room n'est pas visible, on remet la couleur à la normale
-                Image roomImage = hidePhoneScript.Room.GetComponent<Image>();
-                if (roomImage != null)
-                {
-                    Debug.Log("Changement de couleur en blanc");
-                    roomImage.color = Color.white;  // Retour à la couleur d'origine (ou autre couleur)
-                }
+                Debug.Log("Loading EndMenu scene");
+                SceneManager.LoadScene("EndMenu");
             }
         }
     }
