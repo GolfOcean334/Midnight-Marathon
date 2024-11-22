@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class SeparateGameManager : MonoBehaviour
 {
+    public static SeparateGameManager Instance;
+    
     [Header("Input Actions")]
     [SerializeField] private InputActionReference holdAction;
     [SerializeField] private InputActionReference positionAction;
@@ -55,6 +57,7 @@ public class SeparateGameManager : MonoBehaviour
     
     private void Awake()
     {
+        Instance = this;
         holdAction.action.Enable();
         positionAction.action.Enable();
     }
@@ -80,11 +83,13 @@ public class SeparateGameManager : MonoBehaviour
         {
             InstantiateObject();
             DecreaseTime();
+            CheckObjectDestruction();
             EndOfGame();
             GetInput();
             SelectObject();
             if (selectedObject != null)
             {
+                selectedObject.GetComponent<TrailRenderer>().emitting = true;
                 selectedObject.transform.position = cam.ScreenToWorldPoint(new Vector3(inputPosition.x, inputPosition.y, cam.nearClipPlane));
             }
         }
@@ -115,27 +120,36 @@ public class SeparateGameManager : MonoBehaviour
         if (time <= 0) return;
         time -= Time.deltaTime;
     }
+
+    // Check if the object should be destroyed
+    private void CheckObjectDestruction()
+    {
+        foreach (var spawnedObject in objects.Where(spawnedObject => spawnedObject.GetComponent<Object>().shouldBeDestroyed).ToList())
+        {
+            objects.Remove(spawnedObject);
+            Destroy(spawnedObject);
+        }
+    }
     
     // End of the game
     private void EndOfGame()
     {
         if (time <= 0f) // if the time is up
         {
-            foreach (var finishedObject in objects)
+            foreach (var unfinishedObject in objects)
             {
-                finishedObject.GetComponent<Rigidbody2D>().simulated = false; // stop the object from moving
-                if (finishedObject.GetComponent<Object>().isOnCorrectGround && !finishedObject.GetComponent<Object>().isInTheAir)
-                {
-                    score += 100;
-                }
-                else if (!finishedObject.GetComponent<Object>().isInTheAir)
-                {
-                    score -= 100;
-                }
+                unfinishedObject.GetComponent<Rigidbody2D>().simulated = false; // stop the object from moving
             }
             Debug.Log("Score : " + score);
             isGameRunning = false;
         }
+    }
+
+    // Manage the score
+    public void ScoreManager(bool increment)
+    {
+        if (increment) score += 100;
+        else score -= 100;
     }
 
     // Fit the borders to the screen
@@ -168,7 +182,6 @@ public class SeparateGameManager : MonoBehaviour
         {
             int randomIndex = UnityEngine.Random.Range(0, objectsToSpawn.Count); // get a random index from the objects to spawn list
             GameObject obj = Instantiate(objectsToSpawn[randomIndex], objectSpawnPoint.transform.position, Quaternion.identity, objectParent.transform);
-            obj.GetComponent<Object>().ObjectType = (ElementType)UnityEngine.Random.Range(0, 1); // set the object type to a random value (left or right)
             objects.Add(obj);
             intervalTime = 0; // reset the interval time
         }
