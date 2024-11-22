@@ -824,6 +824,7 @@ MonoBehaviour:
   - {fileID: 2033821990}
   objectsToSpawn: []
   objects: []
+  selectedObject: {fileID: 0}
   objectSpawnPoint: {fileID: 1897019049}
   groundToSpawn: {fileID: 0}
   groundParent: {fileID: 846682767}
@@ -2082,6 +2083,7 @@ MonoBehaviour:
   pictureParts:
   - {fileID: 1365536854}
   - {fileID: 1857036957}
+  selectedPicture: {fileID: 0}
   cam: {fileID: 1370707137}
   time: 7
   tolerance: 5

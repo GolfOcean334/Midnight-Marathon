@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -15,6 +16,7 @@ public class CirclePuzzleGameManager : MonoBehaviour
     
     [Header("Game Objects")]
     [SerializeField] private List<GameObject> pictureParts;
+    [SerializeField] private GameObject selectedPicture;
     [SerializeField] private Camera cam;
     
     [Header("Time")]
@@ -65,14 +67,11 @@ public class CirclePuzzleGameManager : MonoBehaviour
             GetInput();
             ReturnToZero();
             EndOfGame();
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (isGameRunning)
-        {
             SelectObject();
+            if (selectedPicture != null)
+            {
+                selectedPicture.transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z + inputPosition.x);
+            }
         }
     }
 
@@ -105,7 +104,7 @@ public class CirclePuzzleGameManager : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(cam.ScreenToWorldPoint(inputPosition), Vector2.zero);
             if (hit.collider != null && hit.collider.GetComponent<Picture>().isInner)
             {
-                hit.transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z + inputPosition.x);
+                selectedPicture = pictureParts.FirstOrDefault(x => x == hit.collider.gameObject);
             }
         }
     }
@@ -126,6 +125,7 @@ public class CirclePuzzleGameManager : MonoBehaviour
     {
         inputPosition = positionAction.action.ReadValue<Vector2>();
         selectionValue = holdAction.action.ReadValue<float>();
+        if (selectionValue == 0f) selectedPicture = null;
     }
     
     // Decrease the time
