@@ -1,18 +1,35 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HidePhone : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public GameObject Room;
+    public bool isvisble;
+
+
     void Start()
+    {
+    }
+
+    void Update()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void changeVisibilityOnClick()
     {
-        
+        if (Room.activeInHierarchy == true)
+        {
+            Room.SetActive(false);
+            isvisble = false;
+        }
+        else
+        {
+            Room.SetActive(true);
+            isvisble = true;
+        }
+
     }
 }
