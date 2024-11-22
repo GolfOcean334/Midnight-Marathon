@@ -3,31 +3,27 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class addScore : MonoBehaviour
+public class AddScore : MonoBehaviour
 {
-    private int score;
-    [SerializeField]
-    private TextMeshProUGUI scoreText;
-
-    // Start is called before the first frame update
     void Start()
     {
-        score = 0;
-        scoreText.text = "Score : " + score;
-    }
 
+    }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            incrementScore();
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.IncrementScore();
+                Destroy(gameObject);
+                Debug.Log("Score Added");
+            }
+            else
+            {
+                Debug.LogError("GameManager instance is not set.");
+            }
         }
-    }
-
-    // function to increment the score
-    private void incrementScore()
-    {
-        score++;
-        scoreText.text = "Score : " + score;
     }
 }
