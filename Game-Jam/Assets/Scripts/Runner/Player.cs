@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
@@ -96,7 +97,7 @@ public class Player : MonoBehaviour
         }
 
         // Smoothly interpolate to the target position
-        transform.position = Vector3.Lerp(transform.position, lanes[currentLane].transform.position, Time.deltaTime * 50f);
+        transform.DOMove(lanes[currentLane].transform.position, 0.4f).SetEase(Ease.OutBack);
     }
     
     public void SetLanes( List<GameObject> _lanes)
