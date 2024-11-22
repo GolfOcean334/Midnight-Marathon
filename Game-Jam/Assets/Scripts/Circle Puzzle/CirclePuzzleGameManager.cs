@@ -134,12 +134,13 @@ public class CirclePuzzleGameManager : MonoBehaviour
         if (time <= 0) return;
         time -= Time.deltaTime;
     }
-    
+
     // End of the game
     private void EndOfGame()
     {
-        if (time <= 0f) // if the time is up
+        if (time <= 0f) // Si le temps est écoulé
         {
+            // Vérification de la rotation et calcul du score
             if (Mathf.Abs(pictureParts[0].transform.localRotation.eulerAngles.z) <= tolerance)
             {
                 score += 100;
@@ -150,7 +151,42 @@ public class CirclePuzzleGameManager : MonoBehaviour
                 score -= 100;
                 Debug.Log("You lose!");
             }
+
+            // Appeler la fonction de réinitialisation
+            ResetGame();
+
+            // Passer au prochain mini-jeu
+            FindObjectOfType<ChangeMinigame>().OnGameOver();
             isGameRunning = false;
         }
     }
+
+
+    public void ResetGame()
+    {
+        // Réinitialiser le score
+        score = 0;
+
+        // Réinitialiser le temps
+        time = 60f; // Remettez la valeur initiale du temps ici, par exemple 60 secondes.
+
+        // Réinitialiser l'état des objets du puzzle (ici on remet la rotation des pièces à zéro)
+        foreach (var part in pictureParts)
+        {
+            part.transform.rotation = Quaternion.Euler(0, 0, 0); // Réinitialiser la rotation de chaque pièce du puzzle
+        }
+
+        // Réinitialiser l'état du jeu
+        isGameRunning = true;
+        isGameOver = false;
+
+        // Positionner à nouveau les objets
+        PositionObjects();
+
+        // Réinitialiser la position et la rotation des pièces du puzzle si nécessaire
+        RotateObject();
+
+        // Réinitialiser d'autres paramètres si nécessaire
+    }
+
 }

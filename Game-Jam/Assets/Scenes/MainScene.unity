@@ -1749,7 +1749,7 @@ MonoBehaviour:
   - {fileID: 1857036957}
   cam: {fileID: 1370707137}
   time: 7
-  tolerance: 5
+  tolerance: 10
   minimumDefaultRotation: 120
   maximumDefaultRotation: 240
   isGameRunning: 0

@@ -106,28 +106,38 @@ public class SeparateGameManager : MonoBehaviour
         if (time <= 0) return;
         time -= Time.deltaTime;
     }
-    
+
     // End of the game
     private void EndOfGame()
     {
-        if (time <= 0f) // if the time is up
+        if (time <= 0f) // Si le temps est écoulé
         {
             foreach (var finishedObject in objects)
             {
-                finishedObject.GetComponent<Rigidbody2D>().simulated = false; // stop the object from moving
+                finishedObject.GetComponent<Rigidbody2D>().simulated = false; // Arrêter l'objet
                 if (finishedObject.GetComponent<Object>().isOnCorrectGround && !finishedObject.GetComponent<Object>().isInTheAir)
                 {
-                    score += 100;
+                    score += 100; // Ajouter des points si l'objet est bien positionné
                 }
                 else if (!finishedObject.GetComponent<Object>().isInTheAir)
                 {
-                    score -= 100;
+                    score -= 100; // Retirer des points si l'objet est mal positionné
                 }
             }
+
             Debug.Log("Score : " + score);
+
             isGameRunning = false;
+            isGameOver = true;
+
+            // Appeler la fonction de réinitialisation
+            ResetGame();
+
+            // Passer au prochain mini-jeu
+            FindObjectOfType<ChangeMinigame>().OnGameOver();
         }
     }
+
 
     // Fit the borders to the screen
     private void FitBordersToScreen()
@@ -181,4 +191,34 @@ public class SeparateGameManager : MonoBehaviour
             ground.transform.localPosition = new Vector3((i == 0 ? -cameraWidth / 4 : cameraWidth / 4), -cameraHeight / 2 + ground.transform.localScale.y / 2, 0); // set the position of the ground object
         }
     }
+
+    public void ResetGame()
+    {
+        // Réinitialiser le score
+        score = 0;
+
+        // Réinitialiser le temps
+        time = 60f; // Remettez la valeur initiale du temps ici, par exemple 60 secondes.
+
+        // Réinitialiser l'état des objets (détruire les objets existants et réinitialiser les listes)
+        foreach (var obj in objects)
+        {
+            Destroy(obj); // Détruire les objets existants dans la scène
+        }
+        objects.Clear(); // Vider la liste des objets
+
+        // Réinitialiser les paramètres de l'intervalle de spawn
+        intervalTime = 0f;
+
+        // Réactiver le jeu en cours
+        isGameRunning = true;
+        isGameOver = false;
+
+        // Réinitialiser les objets à leur état de départ
+        InitializeGrounds(); // Réinitialiser le terrain (si nécessaire)
+        FitBordersToScreen(); // Réinitialiser les murs (si nécessaire)
+
+        // Optionnel : Vous pouvez aussi réinitialiser la position de la caméra, des personnages ou autres éléments
+    }
+
 }

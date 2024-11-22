@@ -182,18 +182,48 @@ public class RunnerGameManager : MonoBehaviour
         if (time <= 0) return;
         time -= Time.deltaTime;
     }
-    
+
     // End of the game
     private void EndOfGame()
     {
-        if (time <= 0f) // if the time is up
+        if (time <= 0f || !player.GetComponent<Player>().isAlive) // Si le temps est écoulé ou si le joueur est mort
         {
             isGameRunning = false;
-        }
-        else if (!player.GetComponent<Player>().isAlive)
-        {
-            isGameRunning = false;
-            isGameOver = true;
+
+            // Appeler la fonction de réinitialisation du jeu
+            ResetGame();
+
+            // Passer au prochain mini-jeu ou terminer
+            FindObjectOfType<ChangeMinigame>().OnGameOver();
         }
     }
+
+
+    public void ResetGame()
+    {
+        // Réinitialiser le score et le temps
+        score = 0;
+        time = 60f; // ou la valeur initiale du temps, par exemple 60 secondes
+
+        // Réinitialiser l'état du jeu
+        isGameRunning = true;
+        isGameOver = false;
+
+        // Réinitialiser la position du joueur (si nécessaire, pour un jeu de course cela peut inclure la remise à zéro de la position)
+        player.transform.position = Vector3.zero; // ou la position initiale de votre joueur
+
+        // Réinitialiser tous les obstacles existants
+        foreach (var obstacle in obstaclesList)
+        {
+            Destroy(obstacle);
+        }
+        obstaclesList.Clear();
+
+        // Réinitialiser l'intervalle de spawn des obstacles
+        intervalTime = 0;
+
+        // Recréer les obstacles à partir de leurs points de spawn
+        SpawnObstacle();
+    }
+
 }
