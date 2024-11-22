@@ -16,7 +16,8 @@ public class CirclePuzzleGameManager : MonoBehaviour
     [Header("Game Objects")]
     [SerializeField] private List<GameObject> pictureParts;
     [SerializeField] private Camera cam;
-    
+    public HidePhone hidePhoneScript;
+
     [Header("Time")]
     [SerializeField] private float time;
     
@@ -41,13 +42,25 @@ public class CirclePuzzleGameManager : MonoBehaviour
         holdAction.action.Disable();
         positionAction.action.Disable();
     }
-    
+
     private void Awake()
     {
+        // Si hidePhoneScript n'est pas assigné dans l'inspecteur, essayer de le trouver automatiquement
+        if (hidePhoneScript == null)
+        {
+            hidePhoneScript = FindObjectOfType<HidePhone>();  // Trouver le premier objet HidePhone dans la scène
+        }
+
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script not found in the scene!");
+        }
+
         holdAction.action.Enable();
         positionAction.action.Enable();
     }
-    
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,6 +72,7 @@ public class CirclePuzzleGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GamePaused();
         if (isGameRunning)
         {
             DecreaseTime();
@@ -151,13 +165,13 @@ public class CirclePuzzleGameManager : MonoBehaviour
                 score -= 100;
                 Debug.Log("You lose!");
             }
-
+            isGameRunning = false;
             // Appeler la fonction de réinitialisation
             ResetGame();
 
             // Passer au prochain mini-jeu
             FindObjectOfType<ChangeMinigame>().OnGameOver();
-            isGameRunning = false;
+
         }
     }
 
@@ -168,7 +182,7 @@ public class CirclePuzzleGameManager : MonoBehaviour
         score = 0;
 
         // Réinitialiser le temps
-        time = 60f; // Remettez la valeur initiale du temps ici, par exemple 60 secondes.
+        time = 7f; // Remettez la valeur initiale du temps ici, par exemple 60 secondes.
 
         // Réinitialiser l'état des objets du puzzle (ici on remet la rotation des pièces à zéro)
         foreach (var part in pictureParts)
@@ -188,5 +202,26 @@ public class CirclePuzzleGameManager : MonoBehaviour
 
         // Réinitialiser d'autres paramètres si nécessaire
     }
+    public void GamePaused()
+    {
+        // Vérifier si hidePhoneScript est assigné
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script is not assigned.");
+            return;  // Retourner si la référence est null
+        }
+
+        if (hidePhoneScript.isvisble == false)
+        {
+            // Si le téléphone est caché, on met le jeu en pause
+            isGameRunning = false;
+        }
+        else if (hidePhoneScript.isvisble == true)
+        {
+            // Si le téléphone est visible, on redémarre le jeu
+            isGameRunning = true;
+        }
+    }
+
 
 }

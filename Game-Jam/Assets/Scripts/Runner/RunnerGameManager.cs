@@ -18,30 +18,43 @@ public class RunnerGameManager : MonoBehaviour
     [SerializeField] private List<GameObject> obstaclesList;
     [SerializeField] private GameObject obstacleTriggerResource;
     [SerializeField] private GameObject obstacleTrigger;
-    
+    public HidePhone hidePhoneScript;  // référence au script HidePhone
+
     [Header("Obstacle Spawn Points")]
     [SerializeField] private GameObject obstaclesParentSpawnPoint;
     [SerializeField] private List<GameObject> obstaclesSpawnPoints;
-    
+
     [Header("Lanes")]
     [SerializeField] private GameObject laneParent;
     [SerializeField] private List<GameObject> lanes;
-    
+
     [Header("Player")]
     [SerializeField] private GameObject player;
-    
+
     [Header("Gameplay")]
     [SerializeField] private float obstacleSpeed;
     [SerializeField] private Camera cam;
-    
-    [Header("Status")] 
+
+    [Header("Status")]
     [SerializeField] private bool isGameRunning;
     [SerializeField] private bool isGameOver;
     public int score;
-    
+
     // Start is called before the first frame update
     void Start()
     {
+        // Si hidePhoneScript n'est pas assigné dans l'inspecteur, essayer de le trouver automatiquement
+        if (hidePhoneScript == null)
+        {
+            hidePhoneScript = FindObjectOfType<HidePhone>();  // Trouver le premier objet HidePhone dans la scène
+        }
+
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script not found in the scene!");
+        }
+
+
         obstacle = Resources.Load<GameObject>("Runner/Obstacle");
         obstacleTriggerResource = Resources.Load<GameObject>("Runner/Trigger");
         SetObstacleTrigger();
@@ -56,6 +69,7 @@ public class RunnerGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GamePaused();
         if (isGameRunning)
         {
             SpawnObstacle();
@@ -80,7 +94,7 @@ public class RunnerGameManager : MonoBehaviour
             obstaclesSpawnPoints.Add(child.gameObject);
         }
     }
-    
+
     // Get the lanes
     private void GetLanes()
     {
@@ -89,7 +103,7 @@ public class RunnerGameManager : MonoBehaviour
             lanes.Add(child.gameObject);
         }
     }
-    
+
     // Set the obstacles spawn points position
     private void SetObstaclesSpawnPoints()
     {
@@ -123,11 +137,11 @@ public class RunnerGameManager : MonoBehaviour
         float screenAspect = (float)Screen.width / (float)Screen.height; // get the screen aspect ratio
         float cameraHeight = cam.orthographicSize * 2; // get the camera height
         float cameraWidth = cameraHeight * screenAspect; // get the camera width
-        
+
         obstacleTrigger = Instantiate(obstacleTriggerResource, new Vector3(0, 0 - cameraHeight / 2 - obstacleTriggerResource.transform.localScale.y, 0), Quaternion.identity);
         obstacleTrigger.transform.localScale = new Vector3(cameraWidth, obstacleTriggerResource.transform.localScale.y, obstacleTriggerResource.transform.localScale.z);
     }
-    
+
     // Spawn the obstacles
     private void SpawnObstacle()
     {
@@ -159,7 +173,7 @@ public class RunnerGameManager : MonoBehaviour
             intervalTime -= Time.deltaTime;
         }
     }
-    
+
     private void MoveObstacles()
     {
         for (int i = 0; i < obstaclesList.Count; i++)
@@ -175,7 +189,7 @@ public class RunnerGameManager : MonoBehaviour
             obsRb.velocity = new Vector3(0, -obstacleSpeed, 0);
         }
     }
-    
+
     // Decrease the time
     private void DecreaseTime()
     {
@@ -203,7 +217,7 @@ public class RunnerGameManager : MonoBehaviour
     {
         // Réinitialiser le score et le temps
         score = 0;
-        time = 60f; // ou la valeur initiale du temps, par exemple 60 secondes
+        time = 30f; // ou la valeur initiale du temps, par exemple 60 secondes
 
         // Réinitialiser l'état du jeu
         isGameRunning = true;
@@ -224,6 +238,27 @@ public class RunnerGameManager : MonoBehaviour
 
         // Recréer les obstacles à partir de leurs points de spawn
         SpawnObstacle();
+    }
+
+    public void GamePaused()
+    {
+        // Vérifier si hidePhoneScript est assigné
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script is not assigned.");
+            return;  // Retourner si la référence est null
+        }
+
+        if (hidePhoneScript.isvisble == false)
+        {
+            // Si le téléphone est caché, on met le jeu en pause
+            isGameRunning = false;
+        }
+        else if (hidePhoneScript.isvisble == true)
+        {
+            // Si le téléphone est visible, on redémarre le jeu
+            isGameRunning = true;
+        }
     }
 
 }

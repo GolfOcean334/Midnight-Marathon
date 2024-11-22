@@ -23,37 +23,49 @@ public class SeparateGameManager : MonoBehaviour
     [SerializeField] private GameObject groundParent;
     [SerializeField] private GameObject objectParent;
     [SerializeField] private Camera cam;
-    
+    public HidePhone hidePhoneScript;
+
     [Header("Time")]
     [SerializeField] private float time;
     [SerializeField] private float interval;
     [SerializeField] private float intervalTime;
 
-    [Header("Status")] 
+    [Header("Status")]
     [SerializeField] private bool isGameRunning;
     [SerializeField] private bool isGameOver;
     public int score;
-    
+
     public enum ElementType
     {
         Left,
         Right
     }
-    
+
     private void OnEnable()
     {
         holdAction.action.Enable();
         positionAction.action.Enable();
     }
-    
+
     private void OnDisable()
     {
         holdAction.action.Disable();
         positionAction.action.Disable();
     }
-    
+
     private void Awake()
     {
+
+        // Si hidePhoneScript n'est pas assigné dans l'inspecteur, essayer de le trouver automatiquement
+        if (hidePhoneScript == null)
+        {
+            hidePhoneScript = FindObjectOfType<HidePhone>();  // Trouver le premier objet HidePhone dans la scène
+        }
+
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script not found in the scene!");
+        }
         holdAction.action.Enable();
         positionAction.action.Enable();
     }
@@ -71,6 +83,7 @@ public class SeparateGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GamePaused();
         if (isGameRunning)
         {
             InstantiateObject();
@@ -86,7 +99,7 @@ public class SeparateGameManager : MonoBehaviour
         inputPosition = positionAction.action.ReadValue<Vector2>();
         selectionValue = holdAction.action.ReadValue<float>();
     }
-    
+
     // Select the object
     private void SelectObject()
     {
@@ -99,7 +112,7 @@ public class SeparateGameManager : MonoBehaviour
             }
         }
     }
-    
+
     // Decrease the time
     private void DecreaseTime()
     {
@@ -110,41 +123,40 @@ public class SeparateGameManager : MonoBehaviour
     // End of the game
     private void EndOfGame()
     {
-        if (time <= 0f) // Si le temps est écoulé
+        if (time <= 0f) // If the time is over
         {
             foreach (var finishedObject in objects)
             {
-                finishedObject.GetComponent<Rigidbody2D>().simulated = false; // Arrêter l'objet
+                finishedObject.GetComponent<Rigidbody2D>().simulated = false; // Stop the object
                 if (finishedObject.GetComponent<Object>().isOnCorrectGround && !finishedObject.GetComponent<Object>().isInTheAir)
                 {
-                    score += 100; // Ajouter des points si l'objet est bien positionné
+                    score += 100; // Add points if the object is correctly placed
                 }
                 else if (!finishedObject.GetComponent<Object>().isInTheAir)
                 {
-                    score -= 100; // Retirer des points si l'objet est mal positionné
+                    score -= 100; // Deduct points if the object is incorrectly placed
                 }
             }
 
-            Debug.Log("Score : " + score);
+            Debug.Log("Score: " + score);
 
             isGameRunning = false;
             isGameOver = true;
 
-            // Appeler la fonction de réinitialisation
+            // Call reset game function
             ResetGame();
 
-            // Passer au prochain mini-jeu
+            // Transition to the next mini-game
             FindObjectOfType<ChangeMinigame>().OnGameOver();
         }
     }
 
-
     // Fit the borders to the screen
     private void FitBordersToScreen()
     {
-        float screenAspect = (float)Screen.width / (float)Screen.height; // get the screen aspect ratio
-        float cameraHeight = cam.orthographicSize * 2; // get the camera height
-        float cameraWidth = cameraHeight * screenAspect; // get the camera width
+        float screenAspect = (float)Screen.width / (float)Screen.height; // Get the screen aspect ratio
+        float cameraHeight = cam.orthographicSize * 2; // Get the camera height
+        float cameraWidth = cameraHeight * screenAspect; // Get the camera width
 
         var isWallLeft = true;
 
@@ -161,64 +173,82 @@ public class SeparateGameManager : MonoBehaviour
             }
         }
     }
-    
+
     // Instantiate the object
     private void InstantiateObject()
     {
         if (intervalTime >= interval)
         {
-            int randomIndex = UnityEngine.Random.Range(0, objectsToSpawn.Count); // get a random index from the objects to spawn list
+            int randomIndex = UnityEngine.Random.Range(0, objectsToSpawn.Count); // Get a random index from the objects to spawn list
             GameObject obj = Instantiate(objectsToSpawn[randomIndex], objectSpawnPoint.transform.position, Quaternion.identity, objectParent.transform);
-            obj.GetComponent<Object>().ObjectType = (ElementType)UnityEngine.Random.Range(0, 1); // set the object type to a random value (left or right)
+            obj.GetComponent<Object>().ObjectType = (ElementType)UnityEngine.Random.Range(0, 1); // Set the object type to a random value (left or right)
             objects.Add(obj);
-            intervalTime = 0; // reset the interval time
+            intervalTime = 0; // Reset the interval time
         }
         intervalTime += Time.deltaTime;
     }
-    
+
     // Initialize the ground objects
     private void InitializeGrounds()
     {
-        float screenAspect = (float)Screen.width / (float)Screen.height; // get the screen aspect ratio
-        float cameraHeight = cam.orthographicSize * 2; // get the camera height
-        float cameraWidth = cameraHeight * screenAspect; // get the camera width
+        float screenAspect = (float)Screen.width / (float)Screen.height; // Get the screen aspect ratio
+        float cameraHeight = cam.orthographicSize * 2; // Get the camera height
+        float cameraWidth = cameraHeight * screenAspect; // Get the camera width
 
         for (int i = 0; i < 2; i++)
         {
             GameObject ground = Instantiate(groundToSpawn, Vector3.zero, Quaternion.identity, groundParent.transform);
             ground.GetComponent<Ground>().GroundType = (ElementType)i;
-            ground.transform.localScale = new Vector3(cameraWidth / 2, 0.5f, 1); // set the scale of the ground object
-            ground.transform.localPosition = new Vector3((i == 0 ? -cameraWidth / 4 : cameraWidth / 4), -cameraHeight / 2 + ground.transform.localScale.y / 2, 0); // set the position of the ground object
+            ground.transform.localScale = new Vector3(cameraWidth / 2, 0.5f, 1); // Set the scale of the ground object
+            ground.transform.localPosition = new Vector3((i == 0 ? -cameraWidth / 4 : cameraWidth / 4), -cameraHeight / 2 + ground.transform.localScale.y / 2, 0); // Set the position of the ground object
         }
     }
 
+    // Reset the game state
     public void ResetGame()
     {
-        // Réinitialiser le score
+        // Reset score and time
         score = 0;
+        time = 15f; // Reset to initial time value
 
-        // Réinitialiser le temps
-        time = 60f; // Remettez la valeur initiale du temps ici, par exemple 60 secondes.
-
-        // Réinitialiser l'état des objets (détruire les objets existants et réinitialiser les listes)
+        // Clear and destroy all existing objects
         foreach (var obj in objects)
         {
-            Destroy(obj); // Détruire les objets existants dans la scène
+            Destroy(obj);
         }
-        objects.Clear(); // Vider la liste des objets
+        objects.Clear();
 
-        // Réinitialiser les paramètres de l'intervalle de spawn
+        // Reset the interval time
         intervalTime = 0f;
 
-        // Réactiver le jeu en cours
+        // Reactivate the game and reset the game over state
         isGameRunning = true;
         isGameOver = false;
 
-        // Réinitialiser les objets à leur état de départ
-        InitializeGrounds(); // Réinitialiser le terrain (si nécessaire)
-        FitBordersToScreen(); // Réinitialiser les murs (si nécessaire)
-
-        // Optionnel : Vous pouvez aussi réinitialiser la position de la caméra, des personnages ou autres éléments
+        // Re-initialize the ground and borders
+        InitializeGrounds();
+        FitBordersToScreen();
     }
 
+
+    public void GamePaused()
+    {
+        // Vérifier si hidePhoneScript est assigné
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script is not assigned.");
+            return;  // Retourner si la référence est null
+        }
+
+        if (hidePhoneScript.isvisble == false)
+        {
+            // Si le téléphone est caché, on met le jeu en pause
+            isGameRunning = false;
+        }
+        else if (hidePhoneScript.isvisble == true)
+        {
+            // Si le téléphone est visible, on redémarre le jeu
+            isGameRunning = true;
+        }
+    }
 }
