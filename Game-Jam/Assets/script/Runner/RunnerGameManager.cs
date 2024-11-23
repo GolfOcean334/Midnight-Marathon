@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -9,6 +10,7 @@ public class RunnerGameManager : MonoBehaviour
 {
     [Header("Time")]
     [SerializeField] private float time;
+    [SerializeField] private float defaultTime;
     [SerializeField] private float interval;
     [SerializeField] private float intervalTime;
 
@@ -36,8 +38,8 @@ public class RunnerGameManager : MonoBehaviour
     [SerializeField] private Camera cam;
     
     [Header("Status")] 
+    [SerializeField] private GameObject changeMiniGame;
     [SerializeField] private bool isGameRunning;
-    public int score;
     
     // Start is called before the first frame update
     void Start()
@@ -61,6 +63,7 @@ public class RunnerGameManager : MonoBehaviour
         SetObstaclesSpawnPoints();
         SetLanes();
         player.GetComponent<Player>().SetLanes(lanes);
+        time = defaultTime;
         isGameRunning = true;
     }
 
@@ -81,6 +84,13 @@ public class RunnerGameManager : MonoBehaviour
         if (isGameRunning)
         {
             MoveObstacles();
+        }
+        else if (!isGameRunning)
+        {
+            foreach (var obs in obstaclesList)
+            {
+                obs.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            }
         }
     }
 
@@ -136,7 +146,7 @@ public class RunnerGameManager : MonoBehaviour
         float cameraHeight = cam.orthographicSize * 2; // get the camera height
         float cameraWidth = cameraHeight * screenAspect; // get the camera width
         
-        obstacleTrigger = Instantiate(obstacleTriggerResource, new Vector3(0, 0 - cameraHeight / 2 - obstacleTriggerResource.transform.localScale.y, 0), Quaternion.identity);
+        obstacleTrigger = Instantiate(obstacleTriggerResource, new Vector3(0, 0 - cameraHeight / 2 - obstacleTriggerResource.transform.localScale.y, 0), Quaternion.identity, transform);
         obstacleTrigger.transform.localScale = new Vector3(cameraWidth, obstacleTriggerResource.transform.localScale.y, obstacleTriggerResource.transform.localScale.z);
     }
     
@@ -180,7 +190,7 @@ public class RunnerGameManager : MonoBehaviour
             {
                 Destroy(obstaclesList[i]);
                 obstaclesList.RemoveAt(i);
-                score += 100;
+                SaveScore.Instance.IncrementScore(50);
                 continue;
             }
             Rigidbody2D obsRb = obstaclesList[i].GetComponent<Rigidbody2D>();
@@ -191,7 +201,11 @@ public class RunnerGameManager : MonoBehaviour
     // Decrease the time
     private void DecreaseTime()
     {
-        if (time <= 0) return;
+        if (time <= 0)
+        {
+            isGameRunning = false;
+            return;
+        }
         time -= Time.deltaTime;
     }
     
@@ -201,12 +215,14 @@ public class RunnerGameManager : MonoBehaviour
         if (time <= 0f) // if the time is up
         {
             isGameRunning = false;
-            FindObjectOfType<ChangeMinigame>().OnGameOver();
+            SaveScore.Instance.IncrementScore(100);
+            changeMiniGame.GetComponent<ChangeMinigame>().OnGameOver();
         }
         else if (!player.GetComponent<Player>().isAlive)
         {
             isGameRunning = false;
-            FindObjectOfType<ChangeMinigame>().OnGameOver();
+            SaveScore.Instance.IncrementScore(-100);
+            changeMiniGame.GetComponent<ChangeMinigame>().OnGameOver();
         }
     }
 
@@ -220,13 +236,23 @@ public class RunnerGameManager : MonoBehaviour
 
         if (hidePhoneScript.isvisble == false)
         {
-            
             isGameRunning = false;
         }
         else if (hidePhoneScript.isvisble == true)
         {
-            
             isGameRunning = true;
         }
+    }
+    
+    public void ResetGame()
+    {
+        foreach (var obstacleToDestroy in obstaclesList.ToList())
+        {
+            obstaclesList.Remove(obstacleToDestroy);
+            Destroy(obstacleToDestroy);
+        }
+        player.GetComponent<Player>().isAlive = true;
+        time = defaultTime;
+        isGameRunning = true;
     }
 }

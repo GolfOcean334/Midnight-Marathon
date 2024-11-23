@@ -5,6 +5,7 @@ using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class CirclePuzzleGameManager : MonoBehaviour
@@ -20,9 +21,11 @@ public class CirclePuzzleGameManager : MonoBehaviour
     [SerializeField] private GameObject selectedPicture;
     [SerializeField] private Camera cam;
     public HidePhone hidePhoneScript;
+    [SerializeField] private GameObject changeMiniGame;
 
     [Header("Time")]
     [SerializeField] private float time;
+    [SerializeField] private float defaultTime;
 
     [Header("Gameplay")]
     [SerializeField] private float tolerance;
@@ -32,7 +35,6 @@ public class CirclePuzzleGameManager : MonoBehaviour
     [Header("Status")]
     [SerializeField] private bool isGameRunning;
     [SerializeField] private bool isGameOver;
-    public int score;
 
     private void OnEnable()
     {
@@ -64,9 +66,10 @@ public class CirclePuzzleGameManager : MonoBehaviour
 
     void Start()
     {
-        isGameRunning = true;
+        time = defaultTime;
         PositionObjects();
         RotateObject();
+        isGameRunning = true;
     }
 
     void Update()
@@ -142,26 +145,27 @@ public class CirclePuzzleGameManager : MonoBehaviour
         time -= Time.deltaTime;
     }
 
-    private void EndOfGame()
+    public void EndOfGame()
     {
         if (time <= 0f)
         {
+            // Calculer le score selon la logique de jeu
             if (Mathf.Abs(pictureParts[0].transform.localRotation.eulerAngles.z) <= tolerance)
             {
-                score += 100;
-                Debug.Log("You win!");
+                SaveScore.Instance.IncrementScore(100);
+
                 FindObjectOfType<ChangeMinigame>().OnGameOver();
             }
             else
             {
-                score -= 100;
-                Debug.Log("You lose!");
-                FindObjectOfType<ChangeMinigame>().OnGameOver();
+                SaveScore.Instance.IncrementScore(-100);
+
+                changeMiniGame.GetComponent<ChangeMinigame>().OnGameOver(); // Appeler OnGameOver ici
             }
-            
             isGameRunning = false;
         }
     }
+    
     public void GamePaused()
     {
         if (hidePhoneScript == null)
@@ -178,5 +182,12 @@ public class CirclePuzzleGameManager : MonoBehaviour
         {
             isGameRunning = true;
         }
+    }
+    
+    public void ResetGame()
+    {
+        RotateObject();
+        time = defaultTime;
+        isGameRunning = true;
     }
 }

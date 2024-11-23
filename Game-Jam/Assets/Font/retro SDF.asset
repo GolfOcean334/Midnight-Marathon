@@ -1000,10 +1000,6 @@ MonoBehaviour:
     m_Width: 1023
     m_Height: 729
   - m_X: 42
-    m_Y: 246
-    m_Width: 981
-    m_Height: 777
-  - m_X: 42
     m_Y: 224
     m_Width: 6
     m_Height: 799

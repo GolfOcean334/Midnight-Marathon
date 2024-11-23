@@ -166,12 +166,10 @@ public class MomScript : MonoBehaviour
     {
         if (Momtrigger && hidePhoneScript != null)
         {
-            Debug.Log("Momtrigger: " + Momtrigger);
-            Debug.Log("isvisble: " + hidePhoneScript.isvisble);
 
             if (hidePhoneScript.isvisble == true && Momtrigger == true)
             {
-                Debug.Log("Loading EndMenu scene");
+                hidePhoneScript.isvisble = false;
                 SceneManager.LoadScene("EndMenu");
             }
         }

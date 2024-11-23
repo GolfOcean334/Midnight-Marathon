@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
         transform.DOMove(lanes[currentLane].transform.position, 0.4f).SetEase(Ease.OutBack);
     }
     
-    public void SetLanes( List<GameObject> _lanes)
+    public void SetLanes(List<GameObject> _lanes)
     {
         lanes = new List<GameObject>();
         lanes = _lanes;
