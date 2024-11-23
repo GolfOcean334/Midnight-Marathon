@@ -11,6 +11,13 @@
       <change beforePath="$PROJECT_DIR$/Assets/script/Circle Puzzle/CirclePuzzleGameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/script/Circle Puzzle/CirclePuzzleGameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/script/Runner/RunnerGameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/script/Runner/RunnerGameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/script/Separate/SeparateGameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/script/Separate/SeparateGameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefab/Pipe.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefab/Pipe.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefab/PipeGrass.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefab/PipeGrass.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefab/backgrounds.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefab/backgrounds.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefab/planeMain.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefab/planeMain.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/GameManager.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/GameManager.cs.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +31,9 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/779cc116a5954f1c9b92496e62345641175c00/48/36d35a66/Object.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/script/Circle Puzzle/CirclePuzzleGameManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/script/SceneController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MoonAnimation.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Runner/Obstacle.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -40,6 +50,7 @@
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;RunnerBUgged&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;FlappyBird&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
