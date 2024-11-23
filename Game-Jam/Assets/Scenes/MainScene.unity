@@ -2095,7 +2095,6 @@ RectTransform:
   m_Children:
   - {fileID: 888144789}
   - {fileID: 1120667237}
-  - {fileID: 1764709552}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2968,6 +2967,7 @@ GameObject:
   - component: {fileID: 1699933355}
   - component: {fileID: 1699933356}
   - component: {fileID: 1699933357}
+  - component: {fileID: 1699933358}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3117,6 +3117,19 @@ MonoBehaviour:
   unlockedColor: {r: 0.9607843, g: 0.8352941, b: 0.4392157, a: 1}
   buttons:
   - {fileID: 1838572236}
+--- !u!114 &1699933358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699933350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9135a5a9966d91446b24d78314305e68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerScore: 0
 --- !u!1 &1724959290
 GameObject:
   m_ObjectHideFlags: 0

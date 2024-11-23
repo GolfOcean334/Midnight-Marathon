@@ -5,6 +5,7 @@ using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class CirclePuzzleGameManager : MonoBehaviour
@@ -142,32 +143,32 @@ public class CirclePuzzleGameManager : MonoBehaviour
         time -= Time.deltaTime;
     }
 
-    private void EndOfGame()
+    public void EndOfGame()
     {
         if (time <= 0f)
         {
+            // Calculer le score selon la logique de jeu
             if (Mathf.Abs(pictureParts[0].transform.localRotation.eulerAngles.z) <= tolerance)
             {
                 score += 100;
-                Debug.Log("You win!");
+
+                // Mettre à jour le score global via GameManager
+                SaveScore.Instance.SetScore(score);
+
                 FindObjectOfType<ChangeMinigame>().OnGameOver();
             }
             else
             {
                 score -= 100;
-                Debug.Log("You lose!");
+                // Mettre à jour le score global via GameManager
+                SaveScore.Instance.SetScore(score);
+
                 FindObjectOfType<ChangeMinigame>().OnGameOver();
             }
-
-            foreach (var picture in pictureParts)
-            {
-                picture.transform.DOLocalRotate(new Vector3(0, 0, 360), 3f, RotateMode.FastBeyond360);
-                picture.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 1.5f);
-            }
-            
-            isGameRunning = false;
         }
     }
+
+
     public void GamePaused()
     {
         if (hidePhoneScript == null)

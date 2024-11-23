@@ -173,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0558c5997ad7baf4681a146b193896e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveScore: {fileID: 0}
 --- !u!1 &252959629
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +271,7 @@ MonoBehaviour:
   - {fileID: 468277801}
   - {fileID: 268775016}
   scoreThresholds: c8000000f4010000e8030000
-  playerScore: 1000
+  playerScore: 0
   unlockedColor: {r: 0.9607843, g: 0.8352941, b: 0.4392157, a: 1}
   buttons:
   - {fileID: 1506753239}
@@ -1510,7 +1511,7 @@ GameObject:
   - component: {fileID: 1558609589}
   - component: {fileID: 1558609591}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: scoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1644,7 +1645,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f040330190b4db4eb44eb500f20106e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerScore: 1000
   scoreText: {fileID: 1558609589}
 --- !u!1 &1941088951
 GameObject:

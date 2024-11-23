@@ -201,11 +201,13 @@ public class RunnerGameManager : MonoBehaviour
         if (time <= 0f) // if the time is up
         {
             isGameRunning = false;
+            SaveScore.Instance.SetScore(-100);
             FindObjectOfType<ChangeMinigame>().OnGameOver();
         }
         else if (!player.GetComponent<Player>().isAlive)
         {
             isGameRunning = false;
+            SaveScore.Instance.SetScore(100);
             FindObjectOfType<ChangeMinigame>().OnGameOver();
         }
     }

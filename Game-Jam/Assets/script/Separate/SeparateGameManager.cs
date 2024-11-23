@@ -152,6 +152,7 @@ public class SeparateGameManager : MonoBehaviour
                 unfinishedObject.GetComponent<Rigidbody2D>().simulated = false; // stop the object from moving
             }
             Debug.Log("Score : " + score);
+            SaveScore.Instance.SetScore(score);
             isGameRunning = false;
             FindObjectOfType<ChangeMinigame>().OnGameOver();
         }
