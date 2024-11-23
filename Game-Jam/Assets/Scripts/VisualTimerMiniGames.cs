@@ -11,6 +11,15 @@ public class VisualTimerMiniGames : MonoBehaviour
     [SerializeField] private Image[] timerIndicators; // Les 5 indicateurs (100%, 75%, ... 0%)
     private int currentIndicatorIndex = 0; // L'indicateur actuellement affiché
 
+    [SerializeField] private AudioClip Sound;
+    private AudioSource audioSource;
+
+    private void Awake()
+    {
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = Sound;
+        audioSource.playOnAwake = false;
+    }
     void Start()
     {
         timeRemaining = totalGameTime;
@@ -53,6 +62,7 @@ public class VisualTimerMiniGames : MonoBehaviour
         timerIndicators[currentIndicatorIndex].enabled = false;
         currentIndicatorIndex++;
         timerIndicators[currentIndicatorIndex].enabled = true;
+        audioSource.Play();
     }
 
     public float GetTimeRemaining()

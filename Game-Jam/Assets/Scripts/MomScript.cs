@@ -5,11 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class MomScript : MonoBehaviour
 {
-    public Transform Spawn1;
-    public Transform Spawn2;
-    public Transform Spawn3;
-    public Transform InitialPos;  // Position initiale de "mom"
-    public HidePhone hidePhoneScript;  // Référence au script HidePhone pour accéder à isVisible et Room
+    [SerializeField] private Transform Spawn1;
+    [SerializeField] private Transform Spawn2;
+    [SerializeField] private Transform Spawn3;
+    [SerializeField] private Transform InitialPos;  // Position initiale de "mom"
+    [SerializeField] private HidePhone hidePhoneScript;  // Référence au script HidePhone pour accéder à isVisible et Room
 
     int RandomSpawn;
     float SpawnInterval; // Intervalle entre chaque spawn
@@ -19,20 +19,35 @@ public class MomScript : MonoBehaviour
     Coroutine mycoroutine;
 
     // Références aux composants Image des spawns
-    public Image spawn1Image;  // Image de Spawn1
-    public Image spawn2Image;  // Image de Spawn2
-    public Image spawn3Image;  // Image de Spawn3
+    [SerializeField] private Image spawn1Image;  // Image de Spawn1
+    [SerializeField] private Image spawn2Image;  // Image de Spawn2
+    [SerializeField] private Image spawn3Image;  // Image de Spawn3
 
     // Sprites pour chaque état de spawn
-    public Sprite spawn1IdleImage;  // Image de Spawn1 quand inactif
-    public Sprite spawn2IdleImage;  // Image de Spawn2 quand inactif
-    public Sprite spawn3IdleImage;  // Image de Spawn3 quand inactif
-    public Sprite spawn1ComingSprite;  // Image de Spawn1 avant l'apparition de "Mom"
-    public Sprite spawn2ComingSprite;  // Image de Spawn2 avant l'apparition de "Mom"
-    public Sprite spawn3ComingSprite;  // Image de Spawn3 avant l'apparition de "Mom"
-    public Sprite spawn1ActiveSprite;  // Image de Spawn1 après l'apparition de "Mom"
-    public Sprite spawn2ActiveSprite;  // Image de Spawn2 après l'apparition de "Mom"
-    public Sprite spawn3ActiveSprite;  // Image de Spawn3 après l'apparition de "Mom"
+    [SerializeField] private Sprite spawn1IdleImage;  // Image de Spawn1 quand inactif
+    [SerializeField] private Sprite spawn2IdleImage;  // Image de Spawn2 quand inactif
+    [SerializeField] private Sprite spawn3IdleImage;  // Image de Spawn3 quand inactif
+    [SerializeField] private Sprite spawn1ComingSprite;  // Image de Spawn1 avant l'apparition de "Mom"
+    [SerializeField] private Sprite spawn2ComingSprite;  // Image de Spawn2 avant l'apparition de "Mom"
+    [SerializeField] private Sprite spawn3ComingSprite;  // Image de Spawn3 avant l'apparition de "Mom"
+    [SerializeField] private Sprite spawn1ActiveSprite;  // Image de Spawn1 après l'apparition de "Mom"
+    [SerializeField] private Sprite spawn2ActiveSprite;  // Image de Spawn2 après l'apparition de "Mom"
+    [SerializeField] private Sprite spawn3ActiveSprite;  // Image de Spawn3 après l'apparition de "Mom"
+
+    [SerializeField] private AudioClip Sound;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip Sound2;
+    private AudioSource audioSource2;
+    private void Awake()
+    {
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = Sound;
+        audioSource.playOnAwake = false;
+
+        audioSource2 = gameObject.AddComponent<AudioSource>();
+        audioSource2.clip = Sound;
+        audioSource2.playOnAwake = false;
+    }
 
     private void Start()
     {
@@ -81,7 +96,8 @@ public class MomScript : MonoBehaviour
                 if (spawn1Image != null)
                 {
                     spawn1Image.sprite = spawn1ComingSprite;  // Changer l'image de Spawn1 avant l'apparition de "Mom"
-                    yield return new WaitForSeconds(1f); // Attendre 1 seconde
+                    audioSource.Play();
+                    yield return new WaitForSeconds(2f); // Attendre 1 seconde
                     spawn1Image.sprite = spawn1IdleImage; // Réinitialiser l'image de Spawn1 à son état original
                 }
                 break;
@@ -90,7 +106,8 @@ public class MomScript : MonoBehaviour
                 if (spawn2Image != null)
                 {
                     spawn2Image.sprite = spawn2ComingSprite;  // Changer l'image de Spawn2 avant l'apparition de "Mom"
-                    yield return new WaitForSeconds(1f); // Attendre 1 seconde
+                    audioSource.Play();
+                    yield return new WaitForSeconds(2f); // Attendre 1 seconde
                     spawn2Image.sprite = spawn2IdleImage; // Réinitialiser l'image de Spawn2 à son état original
                 }
                 break;
@@ -99,7 +116,8 @@ public class MomScript : MonoBehaviour
                 if (spawn3Image != null)
                 {
                     spawn3Image.sprite = spawn3ComingSprite;  // Changer l'image de Spawn3 avant l'apparition de "Mom"
-                    yield return new WaitForSeconds(1f); // Attendre 1 seconde
+                    audioSource.Play();
+                    yield return new WaitForSeconds(2f); // Attendre 1 seconde
                     spawn3Image.sprite = spawn3IdleImage; // Réinitialiser l'image de Spawn3 à son état original
                 }
                 break;
@@ -112,18 +130,21 @@ public class MomScript : MonoBehaviour
         {
             transform.position = Spawn1.position; // Positionner "mom" sur Spawn1
             if (spawn1Image != null) spawn1Image.sprite = spawn1ActiveSprite; // Mettre l'image de Spawn1 à l'état "occupé"
+            audioSource2.Play();
             Momtrigger = true;
         }
         else if (RandomSpawn == 2)
         {
             transform.position = Spawn2.position; // Positionner "mom" sur Spawn2
             if (spawn2Image != null) spawn2Image.sprite = spawn2ActiveSprite; // Mettre l'image de Spawn2 à l'état "occupé"
+            audioSource2.Play();
             Momtrigger = true;
         }
         else if (RandomSpawn == 3)
         {
             transform.position = Spawn3.position; // Positionner "mom" sur Spawn3
             if (spawn3Image != null) spawn3Image.sprite = spawn3ActiveSprite; // Mettre l'image de Spawn3 à l'état "occupé"
+            audioSource2.Play();
             Momtrigger = true;
         }
     }
