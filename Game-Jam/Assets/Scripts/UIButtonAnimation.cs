@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections;
 public class UIButtonAnimation : MonoBehaviour
 {
     [SerializeField] private RectTransform[] stars;
@@ -9,6 +10,15 @@ public class UIButtonAnimation : MonoBehaviour
     [SerializeField] private Color unlockedColor = new Color(245 / 255f, 213 / 255f, 112 / 255f);
     [SerializeField] private RectTransform[] buttons;
 
+    [SerializeField] private AudioClip starSound;
+    private AudioSource audioSource;
+
+    private void Awake()
+    {
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = starSound;
+        audioSource.playOnAwake = false;
+    }
     void Start()
     {
         AnimateStarsBasedOnScore();
@@ -44,6 +54,16 @@ public class UIButtonAnimation : MonoBehaviour
         star.DOScale(new Vector3(1.2f, 1.2f, 1.0f), 0.8f)
             .SetEase(Ease.OutElastic)
             .SetLoops(-1, LoopType.Yoyo);
+
+        StartCoroutine(PlaySoundWithAnimation());
+    }
+    private IEnumerator PlaySoundWithAnimation()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1.5f);
+            audioSource.Play();
+        }
     }
 
     void AddButtonEvents(RectTransform button)
