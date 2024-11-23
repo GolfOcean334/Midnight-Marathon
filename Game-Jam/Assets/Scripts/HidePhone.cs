@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HidePhone : MonoBehaviour
 {
     public GameObject Room;
+
+    [SerializeField]
+    private RawImage dupliCamera;
     public bool isvisble = true;
 
     void Start()
@@ -22,11 +26,14 @@ public class HidePhone : MonoBehaviour
     {
         if (Room.activeInHierarchy == true)
         {
+           
+            dupliCamera.gameObject.SetActive(false);
             Room.SetActive(false);
             isvisble = false;
         }
         else
         {
+            dupliCamera.gameObject.SetActive(true);
             Room.SetActive(true);
             isvisble = true;
         }
