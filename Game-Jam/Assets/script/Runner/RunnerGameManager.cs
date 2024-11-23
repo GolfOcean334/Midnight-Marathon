@@ -206,7 +206,7 @@ public class RunnerGameManager : MonoBehaviour
         {
             isGameRunning = false;
             SaveScore.Instance.SetScore(-100);
-            FindObjectOfType<ChangeMinigame>().OnGameOver();
+            changeMiniGame.GetComponent<ChangeMinigame>().OnGameOver();
         }
         else if (!player.GetComponent<Player>().isAlive)
         {
@@ -226,12 +226,10 @@ public class RunnerGameManager : MonoBehaviour
 
         if (hidePhoneScript.isvisble == false)
         {
-            
             isGameRunning = false;
         }
         else if (hidePhoneScript.isvisble == true)
         {
-            
             isGameRunning = true;
         }
     }

@@ -232,7 +232,6 @@ public class SeparateGameManager : MonoBehaviour
 
     public void GamePaused()
     {
-        
         if (hidePhoneScript == null)
         {
             Debug.LogError("HidePhone script is not assigned.");

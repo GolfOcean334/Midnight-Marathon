@@ -8,15 +8,15 @@ public class SaveScore : MonoBehaviour
 
     private void Awake()
     {
-        // Vérifier si une instance existe déjà, sinon la créer
+        // Vï¿½rifier si une instance existe dï¿½jï¿½, sinon la crï¿½er
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Garder cet objet entre les scènes
+            DontDestroyOnLoad(gameObject); // Garder cet objet entre les scï¿½nes
         }
         else
         {
-            Destroy(gameObject); // Détruire l'objet s'il existe déjà
+            Destroy(gameObject); // Dï¿½truire l'objet s'il existe dï¿½jï¿½
         }
     }
 
@@ -32,6 +32,6 @@ public class SaveScore : MonoBehaviour
 
     public void ResetScore()
     {
-        playerScore = 0; // Remettre le score à zéro
+        playerScore = 0; // Remettre le score ï¿½ zï¿½ro
     }
 }
