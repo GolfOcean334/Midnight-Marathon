@@ -21,9 +21,11 @@ public class CirclePuzzleGameManager : MonoBehaviour
     [SerializeField] private GameObject selectedPicture;
     [SerializeField] private Camera cam;
     public HidePhone hidePhoneScript;
+    [SerializeField] private GameObject changeMiniGame;
 
     [Header("Time")]
     [SerializeField] private float time;
+    [SerializeField] private float defaultTime;
 
     [Header("Gameplay")]
     [SerializeField] private float tolerance;
@@ -65,9 +67,10 @@ public class CirclePuzzleGameManager : MonoBehaviour
 
     void Start()
     {
-        isGameRunning = true;
+        time = defaultTime;
         PositionObjects();
         RotateObject();
+        isGameRunning = true;
     }
 
     void Update()
@@ -152,7 +155,7 @@ public class CirclePuzzleGameManager : MonoBehaviour
             {
                 score += 100;
 
-                // Mettre à jour le score global via GameManager
+                // Mettre ï¿½ jour le score global via GameManager
                 SaveScore.Instance.SetScore(score);
 
                 FindObjectOfType<ChangeMinigame>().OnGameOver();
@@ -160,15 +163,15 @@ public class CirclePuzzleGameManager : MonoBehaviour
             else
             {
                 score -= 100;
-                // Mettre à jour le score global via GameManager
+                // Mettre ï¿½ jour le score global via GameManager
                 SaveScore.Instance.SetScore(score);
 
-                FindObjectOfType<ChangeMinigame>().OnGameOver();
+                isGameRunning = false;
+                changeMiniGame.GetComponent<ChangeMinigame>().OnGameOver(); // Appeler OnGameOver ici
             }
         }
     }
-
-
+    
     public void GamePaused()
     {
         if (hidePhoneScript == null)
@@ -185,5 +188,13 @@ public class CirclePuzzleGameManager : MonoBehaviour
         {
             isGameRunning = true;
         }
+    }
+    
+    public void ResetGame()
+    {
+        RotateObject();
+        time = defaultTime;
+        isGameRunning = true;
+        score = 0;
     }
 }

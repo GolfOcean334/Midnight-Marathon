@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -9,6 +10,7 @@ public class RunnerGameManager : MonoBehaviour
 {
     [Header("Time")]
     [SerializeField] private float time;
+    [SerializeField] private float defaultTime;
     [SerializeField] private float interval;
     [SerializeField] private float intervalTime;
 
@@ -36,6 +38,7 @@ public class RunnerGameManager : MonoBehaviour
     [SerializeField] private Camera cam;
     
     [Header("Status")] 
+    [SerializeField] private GameObject changeMiniGame;
     [SerializeField] private bool isGameRunning;
     public int score;
     
@@ -61,6 +64,7 @@ public class RunnerGameManager : MonoBehaviour
         SetObstaclesSpawnPoints();
         SetLanes();
         player.GetComponent<Player>().SetLanes(lanes);
+        time = defaultTime;
         isGameRunning = true;
     }
 
@@ -136,7 +140,7 @@ public class RunnerGameManager : MonoBehaviour
         float cameraHeight = cam.orthographicSize * 2; // get the camera height
         float cameraWidth = cameraHeight * screenAspect; // get the camera width
         
-        obstacleTrigger = Instantiate(obstacleTriggerResource, new Vector3(0, 0 - cameraHeight / 2 - obstacleTriggerResource.transform.localScale.y, 0), Quaternion.identity);
+        obstacleTrigger = Instantiate(obstacleTriggerResource, new Vector3(0, 0 - cameraHeight / 2 - obstacleTriggerResource.transform.localScale.y, 0), Quaternion.identity, transform);
         obstacleTrigger.transform.localScale = new Vector3(cameraWidth, obstacleTriggerResource.transform.localScale.y, obstacleTriggerResource.transform.localScale.z);
     }
     
@@ -208,7 +212,7 @@ public class RunnerGameManager : MonoBehaviour
         {
             isGameRunning = false;
             SaveScore.Instance.SetScore(100);
-            FindObjectOfType<ChangeMinigame>().OnGameOver();
+            changeMiniGame.GetComponent<ChangeMinigame>().OnGameOver();
         }
     }
 
@@ -230,5 +234,18 @@ public class RunnerGameManager : MonoBehaviour
             
             isGameRunning = true;
         }
+    }
+    
+    public void ResetGame()
+    {
+        foreach (var obstacleToDestroy in obstaclesList.ToList())
+        {
+            obstaclesList.Remove(obstacleToDestroy);
+            Destroy(obstacleToDestroy);
+        }
+        player.GetComponent<Player>().isAlive = true;
+        time = defaultTime;
+        isGameRunning = true;
+        score = 0;
     }
 }
