@@ -158,12 +158,6 @@ public class CirclePuzzleGameManager : MonoBehaviour
                 Debug.Log("You lose!");
                 FindObjectOfType<ChangeMinigame>().OnGameOver();
             }
-
-            foreach (var picture in pictureParts)
-            {
-                picture.transform.DOLocalRotate(new Vector3(0, 0, 360), 3f, RotateMode.FastBeyond360);
-                picture.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 1.5f);
-            }
             
             isGameRunning = false;
         }
