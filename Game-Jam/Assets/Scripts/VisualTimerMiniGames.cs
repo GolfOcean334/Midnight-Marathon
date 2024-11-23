@@ -14,6 +14,17 @@ public class VisualTimerMiniGames : MonoBehaviour
     [SerializeField] private AudioClip Sound;
     private AudioSource audioSource;
 
+    [Header("Game Manager")]
+    [SerializeField] private GameObject game1;
+    [SerializeField] private GameObject game2;
+    [SerializeField] private GameObject game3;
+
+    [Header("Scripts")]
+    [SerializeField] private SeparateGameManager sepScript;
+    [SerializeField] private RunnerGameManager runScript;
+    [SerializeField] private CirclePuzzleGameManager circleScript;
+    private int activeScriptIndex;
+
     private void Awake()
     {
         audioSource = gameObject.AddComponent<AudioSource>();
@@ -22,13 +33,15 @@ public class VisualTimerMiniGames : MonoBehaviour
     }
     void Start()
     {
-        timeRemaining = totalGameTime;
-        UpdateTimerIndicators(); // Initialisation du premier indicateur
+        sepScript = game1.GetComponent<SeparateGameManager>();
+        runScript = game2.GetComponent<RunnerGameManager>();
+        circleScript = game3.GetComponent<CirclePuzzleGameManager>();
+        ResetTimer();
     }
 
     void Update()
     {
-        if (timeRemaining > 0)
+        if (timeRemaining > 0 && ((sepScript.isGameRunning && activeScriptIndex == 0) || (runScript.isGameRunning && activeScriptIndex == 1) || (circleScript.isGameRunning && activeScriptIndex == 0)))
         {
             timeRemaining -= Time.deltaTime;
 
@@ -72,6 +85,21 @@ public class VisualTimerMiniGames : MonoBehaviour
 
     public void ResetTimer()
     {
+        if (game1.activeSelf == true)
+        {
+            timeRemaining = sepScript.defaultTime;
+            activeScriptIndex = 0;
+        }
+        else if (game2.activeSelf == true)
+        {
+            timeRemaining = runScript.defaultTime;
+            activeScriptIndex = 1;
+        }
+        else if (game3.activeSelf == true)
+        {
+            timeRemaining = circleScript.defaultTime;
+            activeScriptIndex = 2;
+        }
         timeRemaining = totalGameTime;
         currentIndicatorIndex = 0;
         UpdateTimerIndicators();

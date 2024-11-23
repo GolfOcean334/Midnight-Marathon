@@ -10,7 +10,7 @@ public class RunnerGameManager : MonoBehaviour
 {
     [Header("Time")]
     [SerializeField] private float time;
-    [SerializeField] private float defaultTime;
+    public float defaultTime;
     [SerializeField] private float interval;
     [SerializeField] private float intervalTime;
 
@@ -39,7 +39,7 @@ public class RunnerGameManager : MonoBehaviour
     
     [Header("Status")] 
     [SerializeField] private GameObject changeMiniGame;
-    [SerializeField] private bool isGameRunning;
+    public bool isGameRunning;
     
     // Start is called before the first frame update
     void Start()

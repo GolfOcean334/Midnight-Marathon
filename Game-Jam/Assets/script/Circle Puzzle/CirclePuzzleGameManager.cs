@@ -25,7 +25,7 @@ public class CirclePuzzleGameManager : MonoBehaviour
 
     [Header("Time")]
     [SerializeField] private float time;
-    [SerializeField] private float defaultTime;
+    public float defaultTime;
 
     [Header("Gameplay")]
     [SerializeField] private float tolerance;
@@ -33,7 +33,7 @@ public class CirclePuzzleGameManager : MonoBehaviour
     [SerializeField] private float maximumDefaultRotation;
 
     [Header("Status")]
-    [SerializeField] private bool isGameRunning;
+    public bool isGameRunning;
     [SerializeField] private bool isGameOver;
 
     private void OnEnable()

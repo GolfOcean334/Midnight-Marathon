@@ -173,7 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0558c5997ad7baf4681a146b193896e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveScore: {fileID: 0}
 --- !u!1 &252959629
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,14 +269,13 @@ MonoBehaviour:
   - {fileID: 1235594096}
   - {fileID: 468277801}
   - {fileID: 268775016}
-  scoreThresholds: c8000000f4010000e8030000
-  playerScore: 0
+  scoreThresholds: e8030000c409000088130000
   unlockedColor: {r: 0.9607843, g: 0.8352941, b: 0.4392157, a: 1}
   buttons:
   - {fileID: 1506753239}
   - {fileID: 1020054126}
   - {fileID: 1482091740}
-  starSound: {fileID: 8300000, guid: dc7cd6be630ef8c4d93a5b188f83da1f, type: 3}
+  starSound: {fileID: 8300000, guid: 863319e284470254bbfbb5a109714d00, type: 3}
 --- !u!1 &268775015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1249,7 +1247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb0eb9a78fd3f44bbf672a3aa341973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerScore: 1000
+  playerScore: 0
   winMessage: {fileID: 1236615499}
   defeatMessage: {fileID: 1236615499}
 --- !u!1 &1306855075
