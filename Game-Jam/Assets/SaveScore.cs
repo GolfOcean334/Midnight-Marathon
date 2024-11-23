@@ -4,7 +4,7 @@ public class SaveScore : MonoBehaviour
 {
     public static SaveScore Instance { get; private set; }
 
-    private int playerScore;
+    [SerializeField] private int playerScore;
 
     private void Awake()
     {
@@ -23,6 +23,11 @@ public class SaveScore : MonoBehaviour
     public void SetScore(int score)
     {
         playerScore = score;
+    }
+    
+    public void IncrementScore(int score)
+    {
+        playerScore += score;
     }
 
     public int GetScore()

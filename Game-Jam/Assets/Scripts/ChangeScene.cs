@@ -3,24 +3,21 @@ using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
-    // Référence au SaveScore (GameManager)
-    public SaveScore saveScore;
-
     public void GoMainScene()
     {
-        // Réinitialiser le score avant de charger la scène principale
-        if (saveScore != null)
+        // Rï¿½initialiser le score avant de charger la scï¿½ne principale
+        if (SaveScore.Instance != null)
         {
-            saveScore.ResetScore();  // Appeler la méthode pour réinitialiser le score
+            SaveScore.Instance.ResetScore();  // Appeler la mï¿½thode pour rï¿½initialiser le score
         }
 
-        // Charger la scène "MainScene"
+        // Charger la scï¿½ne "MainScene"
         SceneManager.LoadScene("MainScene");
     }
 
     public void GoMainMenu()
     {
-        // Charger la scène "MainMenu"
+        // Charger la scï¿½ne "MainMenu"
         SceneManager.LoadScene("MainMenu");
     }
 

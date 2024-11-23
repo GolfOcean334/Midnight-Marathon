@@ -39,7 +39,6 @@ public class SeparateGameManager : MonoBehaviour
     [Header("Status")] 
     [SerializeField] private bool isGameRunning;
     [SerializeField] private bool isGameOver;
-    public int score;
     
     public enum ElementType
     {
@@ -156,8 +155,7 @@ public class SeparateGameManager : MonoBehaviour
             {
                 unfinishedObject.GetComponent<Rigidbody2D>().simulated = false; // stop the object from moving
             }
-            Debug.Log("Score : " + score);
-            SaveScore.Instance.SetScore(score);
+            SaveScore.Instance.IncrementScore(100);
             isGameRunning = false;
 
             foreach (var objectToKill in objects.ToList())
@@ -173,8 +171,8 @@ public class SeparateGameManager : MonoBehaviour
     // Manage the score
     public void ScoreManager(bool increment)
     {
-        if (increment) score += 100;
-        else score -= 100;
+        if (increment) SaveScore.Instance.IncrementScore(100);
+        else SaveScore.Instance.IncrementScore(-100);
     }
 
     // Fit the borders to the screen
@@ -252,7 +250,6 @@ public class SeparateGameManager : MonoBehaviour
     {
         objects.Clear();
         time = defaultTime;
-        score = 0;
         isGameRunning = true;
     }
 }

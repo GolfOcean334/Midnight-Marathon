@@ -35,7 +35,6 @@ public class CirclePuzzleGameManager : MonoBehaviour
     [Header("Status")]
     [SerializeField] private bool isGameRunning;
     [SerializeField] private bool isGameOver;
-    public int score;
 
     private void OnEnable()
     {
@@ -153,18 +152,13 @@ public class CirclePuzzleGameManager : MonoBehaviour
             // Calculer le score selon la logique de jeu
             if (Mathf.Abs(pictureParts[0].transform.localRotation.eulerAngles.z) <= tolerance)
             {
-                score += 100;
-
-                // Mettre � jour le score global via GameManager
-                SaveScore.Instance.SetScore(score);
+                SaveScore.Instance.IncrementScore(100);
 
                 FindObjectOfType<ChangeMinigame>().OnGameOver();
             }
             else
             {
-                score -= 100;
-                // Mettre � jour le score global via GameManager
-                SaveScore.Instance.SetScore(score);
+                SaveScore.Instance.IncrementScore(-100);
 
                 isGameRunning = false;
                 changeMiniGame.GetComponent<ChangeMinigame>().OnGameOver(); // Appeler OnGameOver ici
@@ -195,6 +189,5 @@ public class CirclePuzzleGameManager : MonoBehaviour
         RotateObject();
         time = defaultTime;
         isGameRunning = true;
-        score = 0;
     }
 }

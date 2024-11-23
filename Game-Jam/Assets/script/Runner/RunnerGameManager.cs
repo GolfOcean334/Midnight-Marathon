@@ -40,7 +40,6 @@ public class RunnerGameManager : MonoBehaviour
     [Header("Status")] 
     [SerializeField] private GameObject changeMiniGame;
     [SerializeField] private bool isGameRunning;
-    public int score;
     
     // Start is called before the first frame update
     void Start()
@@ -85,6 +84,13 @@ public class RunnerGameManager : MonoBehaviour
         if (isGameRunning)
         {
             MoveObstacles();
+        }
+        else if (!isGameRunning)
+        {
+            foreach (var obs in obstaclesList)
+            {
+                obs.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            }
         }
     }
 
@@ -184,7 +190,7 @@ public class RunnerGameManager : MonoBehaviour
             {
                 Destroy(obstaclesList[i]);
                 obstaclesList.RemoveAt(i);
-                score += 100;
+                SaveScore.Instance.IncrementScore(50);
                 continue;
             }
             Rigidbody2D obsRb = obstaclesList[i].GetComponent<Rigidbody2D>();
@@ -195,7 +201,11 @@ public class RunnerGameManager : MonoBehaviour
     // Decrease the time
     private void DecreaseTime()
     {
-        if (time <= 0) return;
+        if (time <= 0)
+        {
+            isGameRunning = false;
+            return;
+        }
         time -= Time.deltaTime;
     }
     
@@ -205,13 +215,13 @@ public class RunnerGameManager : MonoBehaviour
         if (time <= 0f) // if the time is up
         {
             isGameRunning = false;
-            SaveScore.Instance.SetScore(-100);
+            SaveScore.Instance.IncrementScore(100);
             changeMiniGame.GetComponent<ChangeMinigame>().OnGameOver();
         }
         else if (!player.GetComponent<Player>().isAlive)
         {
             isGameRunning = false;
-            SaveScore.Instance.SetScore(100);
+            SaveScore.Instance.IncrementScore(-100);
             changeMiniGame.GetComponent<ChangeMinigame>().OnGameOver();
         }
     }
@@ -244,6 +254,5 @@ public class RunnerGameManager : MonoBehaviour
         player.GetComponent<Player>().isAlive = true;
         time = defaultTime;
         isGameRunning = true;
-        score = 0;
     }
 }
