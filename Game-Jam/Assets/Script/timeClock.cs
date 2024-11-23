@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class timeClock : MonoBehaviour
 {
-    public Transform hourBar;
-    public Transform minuteBar;
+    [SerializeField] 
+    private Transform hourBar;
+    [SerializeField]
+    private Transform minuteBar;
 
     private const float secondsPerMinute = 60.0f;
     private const float secondsPerHour = 720.0f;
