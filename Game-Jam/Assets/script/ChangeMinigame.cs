@@ -46,6 +46,10 @@ public class ChangeMinigame : MonoBehaviour
         {
             currentManager.GetComponent<CirclePuzzleGameManager>().ResetGame();
         }
+        //else if (currentManager.GetComponent<FlappyBirdGameManager>() != null)
+        //{
+        //    currentManager.GetComponent<FlappyBirdGameManager>().ResetGame();
+        //}
     }
 
     // This function can be called when the current game ends (e.g., in score management)

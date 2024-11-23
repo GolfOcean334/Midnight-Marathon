@@ -1,14 +1,17 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
-public class GameManager : MonoBehaviour
+public class FlappyBirdGameManager : MonoBehaviour
 {
     [Header("Plane")]
     [SerializeField] GameObject planePrefab;
     [SerializeField] Vector3 planeSpawnPosition;
-    
+    [SerializeField] GameObject player;
+    Vector3 worldMiddleBottomHalf;
+
+    public HidePhone hidePhoneScript;
+
     [Header("Background")]
     [SerializeField] List<GameObject> envs;
     [SerializeField] List<GameObject> backgrounds;
@@ -16,17 +19,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject background;
     [SerializeField] GameObject roof;
     [SerializeField] GameObject ground;
-    
+
     [Header("Values")]
     [SerializeField] float speed = 2f;
-    
+    public bool isGameRunning;
+
     [Header("Score")]
     public static int score = 0;
 
-    [SerializeField]
-    private TextMeshProUGUI scoreText;
+    [Header("Time")]
+    [SerializeField] private float time;
+    public float defaultTime;
 
-    public static GameManager Instance { get; private set; }
+    public static FlappyBirdGameManager Instance { get; private set; }
 
     private void Awake()
     {
@@ -40,22 +45,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         ground = Resources.Load<GameObject>("Flappy Bird/Ground");
         roof = Resources.Load<GameObject>("Flappy Bird/Roof");
         background = Resources.Load<GameObject>("Flappy Bird/background");
         InitBackground();
-        UpdateScoreUI();
-        
+
         Camera mainCamera = Camera.main;
         Vector3 screenMiddleBottomHalf = new Vector3(mainCamera.pixelWidth / 2f, mainCamera.pixelHeight / 4f, mainCamera.nearClipPlane);
-        Vector3 worldMiddleBottomHalf = mainCamera.ScreenToWorldPoint(screenMiddleBottomHalf);
+        worldMiddleBottomHalf = mainCamera.ScreenToWorldPoint(screenMiddleBottomHalf);
         worldMiddleBottomHalf.z = 0; // Ensure the z position is correct for your game
 
-        GameObject obj = Instantiate(planePrefab, worldMiddleBottomHalf, Quaternion.identity);
+        player = Instantiate(planePrefab, worldMiddleBottomHalf, Quaternion.identity);
+
+        time = defaultTime;
+
+        isGameRunning = true;
     }
-    
+
     private void InitBackground()
     {
         Camera mainCamera = Camera.main;
@@ -65,7 +73,7 @@ public class GameManager : MonoBehaviour
         GameObject roofObj = Instantiate(roof, worldCenter, Quaternion.identity, envParent.transform);
         float screenWidthInWorldUnits = mainCamera.orthographicSize * 2 * mainCamera.aspect;
         roofObj.transform.localScale = new Vector3(screenWidthInWorldUnits, 0.5f, 1);
-        
+
         Vector3 screenBottom = new Vector3(mainCamera.pixelWidth / 2f, 0, mainCamera.nearClipPlane);
         Vector3 worldBottom = mainCamera.ScreenToWorldPoint(screenBottom);
         worldBottom.z = 0; // Ensure the z position is correct for your game
@@ -81,7 +89,7 @@ public class GameManager : MonoBehaviour
         backgrounds.Add(bg1);
         backgrounds.Add(bg2);
     }
-    
+
     private void AnimateBackground()
     {
         foreach (var bg in backgrounds)
@@ -96,17 +104,39 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        AnimateBackground();
+        if (isGameRunning)
+        {
+            AnimateBackground();
+            time -= Time.deltaTime;
+        }
     }
 
     public void IncrementScore()
     {
-        score++;  
-        UpdateScoreUI();  
+        SaveScore.Instance.IncrementScore(100);
     }
 
-    private void UpdateScoreUI()
+    public void GamePaused()
     {
-        scoreText.text = "Score : " + score;
+        if (hidePhoneScript == null)
+        {
+            Debug.LogError("HidePhone script is not assigned.");
+            return;
+        }
+
+        if (hidePhoneScript.isvisble == false)
+        {
+            isGameRunning = false;
+        }
+        else if (hidePhoneScript.isvisble == true)
+        {
+            isGameRunning = true;
+        }
+    }
+
+    public void ResetGame()
+    {
+        time = defaultTime;
+        player.transform.position = worldMiddleBottomHalf;
     }
 }

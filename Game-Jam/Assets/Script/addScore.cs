@@ -10,15 +10,15 @@ public class AddScore : MonoBehaviour
 
     }
     
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (GameManager.Instance != null)
-            {
-                GameManager.Instance.IncrementScore();
-                Destroy(gameObject);
-            }
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Player"))
+    //    {
+    //        if (FlappyGameManager.Instance != null)
+    //        {
+    //            FlappyGameManager.Instance.IncrementScore();
+    //            Destroy(gameObject);
+    //        }
+    //    }
+    //}
 }
