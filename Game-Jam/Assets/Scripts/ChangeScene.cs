@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
+    private HidePhone hidePhone;
     public void GoMainScene()
     {
         // R�initialiser le score avant de charger la sc�ne principale
