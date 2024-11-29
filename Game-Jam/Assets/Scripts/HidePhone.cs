@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HidePhone : MonoBehaviour
 {
     public GameObject Room;
-    private RawImage dupliCamera;
+    [SerializeField] RawImage dupliCamera;
     public bool isvisble = true;
 
     void Start()

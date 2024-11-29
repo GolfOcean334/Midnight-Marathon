@@ -3046,6 +3046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Room: {fileID: 1167056424}
+  dupliCamera: {fileID: 2019942368}
   isvisble: 0
 --- !u!114 &1699933356
 MonoBehaviour:
