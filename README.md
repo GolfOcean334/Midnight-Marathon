@@ -1,3 +1,7 @@
+![Ton Projet Banner](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=150&section=header&text=Midnight%20Marathon!&fontSize=50)
+![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)
+![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
+
 Midnight Marathon !
 ========
 
